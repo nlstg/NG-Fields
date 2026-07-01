@@ -1,0 +1,9 @@
+# Environment (sensitive credentials)
+# .env
+
+# Keycloak distribution (full server, hundreds of MB)
+keycloak-26.6.4/
+
+# Logs from local dev
+*.log
+*.err

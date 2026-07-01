@@ -1,0 +1,42 @@
+<div class="flex h-full w-64 flex-col bg-sidebar text-sidebar-foreground border-r">
+  <div class="flex h-14 items-center gap-2 px-4 border-b">
+    <svg class="size-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"/></svg>
+    <span class="font-semibold text-base">NG-Fields</span>
+  </div>
+  <nav class="flex-1 overflow-auto p-2 space-y-1">
+    @for (group of groups; track group.id) {
+      @if (group.label) {
+        <div class="px-2 py-1.5 text-xs font-medium text-sidebar-foreground/70">{{ group.label }}</div>
+      }
+      @for (item of group.items; track item.id) {
+        @if (item.subItems) {
+          <div class="space-y-0">
+            <div class="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium text-sidebar-foreground/70">
+              {{ item.title }}
+            </div>
+            <div class="ml-3 space-y-0 border-l border-sidebar-border pl-2">
+              @for (sub of item.subItems; track sub.id) {
+                <a [routerLink]="sub.url" class="flex items-center gap-2 rounded-md px-2 py-1 text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
+                  {{ sub.title }}
+                </a>
+              }
+            </div>
+          </div>
+        } @else {
+          <a [routerLink]="item.url" class="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium">
+            {{ item.title }}
+          </a>
+        }
+      }
+    }
+  </nav>
+  <div class="p-2 border-t">
+    <div class="flex items-center gap-2 px-2 py-1.5">
+      <div class="size-8 rounded-lg bg-sidebar-primary text-sidebar-primary-foreground flex items-center justify-center text-sm font-medium">AD</div>
+      <div class="grid text-left text-sm leading-tight">
+        <span class="truncate font-semibold">Admin</span>
+        <span class="truncate text-xs text-sidebar-foreground/70">administrator</span>
+      </div>
+    </div>
+  </div>
+</div>

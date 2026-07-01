@@ -1,0 +1,41 @@
+<nav class="flex-1 overflow-auto p-2 space-y-1">
+  @for (group of groups; track group.id) {
+    @if (group.label) {
+      <button (click)="toggleGroup('g' + group.id)" class="flex w-full items-center justify-between px-2 py-1.5 text-xs font-medium text-sidebar-foreground/70 hover:text-sidebar-foreground">
+        {{ group.label }}
+        <svg class="size-3 transition-transform" [class.rotate-90]="isExpanded('g' + group.id)" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    }
+    <div [class.hidden]="group.label && !isExpanded('g' + group.id)">
+      @for (item of group.items; track item.id) {
+        @if (item.subItems) {
+          <div class="space-y-0">
+            <div class="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium text-sidebar-foreground/70">
+              {{ item.title }}
+              @if (item.badge) {
+                <span class="ml-auto rounded bg-sidebar-primary px-1.5 py-0.5 text-[10px] font-semibold text-sidebar-primary-foreground uppercase">{{ item.badge }}</span>
+              }
+            </div>
+            <div class="ml-3 space-y-0 border-l border-sidebar-border pl-2">
+              @for (sub of item.subItems; track sub.id) {
+                <a [routerLink]="sub.url" [attr.target]="sub.newTab ? '_blank' : null" class="flex items-center gap-2 rounded-md px-2 py-1 text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
+                  {{ sub.title }}
+                  @if (sub.badge) {
+                    <span class="ml-auto rounded bg-sidebar-primary px-1.5 py-0.5 text-[10px] font-semibold text-sidebar-primary-foreground uppercase">{{ sub.badge }}</span>
+                  }
+                </a>
+              }
+            </div>
+          </div>
+        } @else {
+          <a [routerLink]="item.url" [attr.target]="item.newTab ? '_blank' : null" class="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
+            {{ item.title }}
+            @if (item.badge) {
+              <span class="ml-auto rounded bg-sidebar-primary px-1.5 py-0.5 text-[10px] font-semibold text-sidebar-primary-foreground uppercase">{{ item.badge }}</span>
+            }
+          </a>
+        }
+      }
+    </div>
+  }
+</nav>

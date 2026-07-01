@@ -1,0 +1,4 @@
+logging:
+  level:
+    tg.ngstars: DEBUG
+    org.springframework.cloud.gateway: DEBUG

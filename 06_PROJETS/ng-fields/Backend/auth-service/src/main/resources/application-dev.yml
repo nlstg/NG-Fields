@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    show-sql: true
+  devtools:
+    restart:
+      enabled: true
+
+keycloak:
+  auth-server-url: http://localhost:8080
+  admin-client-id: admin-cli
+  admin-client-secret: ${KEYCLOAK_ADMIN_CLIENT_SECRET:}
+
+logging:
+  level:
+    tg.ngstars: DEBUG
+    org.springframework.security: DEBUG

@@ -1,0 +1,49 @@
+package tg.ngstars.interv.dto;
+
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.UUID;
+
+public record InterventionResponse(
+    UUID id,
+    String reference,
+    UUID clientId,
+    String clientName,
+    String clientEmail,
+    String clientPhone,
+    String clientAddress,
+    String equipmentType,
+    String equipmentBrand,
+    String equipmentModel,
+    String equipmentSerial,
+    String reportedIssue,
+    String diagnosis,
+    String status,
+    OffsetDateTime interventionDate,
+    UUID createdBy,
+    UUID assignedTo,
+    String siteAddress,
+    String siteCity,
+    BigDecimal estimatedCost,
+    BigDecimal totalCost,
+    String clientSignature,
+    String technicianSignature,
+    OffsetDateTime signedAt,
+    String notes,
+    boolean active,
+    OffsetDateTime createdAt,
+    OffsetDateTime updatedAt,
+    List<ItemResponse> items
+) {
+
+    public record ItemResponse(
+        UUID id,
+        String type,
+        String description,
+        int quantity,
+        BigDecimal unitPrice,
+        BigDecimal total,
+        OffsetDateTime createdAt
+    ) {}
+}

@@ -1,0 +1,20 @@
+<div class="flex min-h-svh w-full">
+  <app-sidebar></app-sidebar>
+  <main class="relative flex w-full flex-1 flex-col bg-background min-w-0 overflow-x-hidden">
+    <header class="flex h-12 shrink-0 items-center gap-2 border-b sticky top-0 z-50 bg-background/50 backdrop-blur-md">
+      <div class="flex w-full items-center justify-between px-4 lg:px-6">
+        <div class="flex items-center gap-1 lg:gap-2">
+          <app-search-dialog></app-search-dialog>
+        </div>
+        <div class="flex items-center gap-2">
+          <app-layout-controls></app-layout-controls>
+          <app-theme-switcher></app-theme-switcher>
+          <app-account-switcher></app-account-switcher>
+        </div>
+      </div>
+    </header>
+    <div class="flex-1 overflow-x-hidden p-4 md:p-6">
+      <router-outlet />
+    </div>
+  </main>
+</div>

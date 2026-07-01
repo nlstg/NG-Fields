@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en" data-theme-mode="light" data-theme-preset="default" data-content-layout="full-width" data-navbar-style="sticky" data-sidebar-variant="inset" data-sidebar-collapsible="icon">
+<head>
+  <meta charset="utf-8">
+  <title>NG-Fields</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script>
+    (function() {
+      try {
+        var root = document.documentElement;
+        function readCookie(name) {
+          var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+          return match ? decodeURIComponent(match[2]) : null;
+        }
+        var keys = ['theme_mode','theme_preset','content_layout','navbar_style','sidebar_variant','sidebar_collapsible'];
+        var defaults = { theme_mode:'light', theme_preset:'default', content_layout:'full-width', navbar_style:'sticky', sidebar_variant:'inset', sidebar_collapsible:'icon' };
+        keys.forEach(function(k) {
+          var v = readCookie('ng-fields-' + k) || defaults[k];
+          root.setAttribute('data-' + k, v);
+        });
+        var mode = root.getAttribute('data-theme-mode');
+        if (mode === 'system') {
+          mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        if (mode === 'dark') { root.classList.add('dark'); }
+        root.style.colorScheme = mode === 'dark' ? 'dark' : 'light';
+      } catch(e) { console.warn('Theme boot error:', e); }
+    })();
+  </script>
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>

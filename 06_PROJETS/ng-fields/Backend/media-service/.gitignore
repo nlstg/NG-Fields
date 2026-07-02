@@ -8,7 +8,6 @@ target/
 *.swp
 *.swo
 *~
-.env
 uploads/
 application-*.yml
 !application.yml

@@ -1,5 +1,4 @@
 # Environment (sensitive credentials)
-# .env
 
 # Keycloak distribution (full server, hundreds of MB)
 keycloak-26.6.4/

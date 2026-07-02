@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,9 +77,9 @@ public class InterventionService {
         return toResponse(interventionRepository.save(intervention));
     }
 
-    public List<InterventionResponse> getInterventions() {
-        return interventionRepository.findByActiveTrueOrderByCreatedAtDesc().stream()
-                .map(this::toResponse).toList();
+    public Page<InterventionResponse> getInterventions(Pageable pageable) {
+        return interventionRepository.findByActiveTrueOrderByCreatedAtDesc(pageable)
+                .map(this::toResponse);
     }
 
     public InterventionResponse getIntervention(UUID id) {

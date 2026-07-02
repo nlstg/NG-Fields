@@ -6,10 +6,11 @@ import java.util.List;
 import java.util.UUID;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record CreateInterventionRequest(
     @NotBlank String reference,
-    @NotBlank UUID clientId,
+    @NotNull UUID clientId,
     String clientName,
     String clientEmail,
     String clientPhone,

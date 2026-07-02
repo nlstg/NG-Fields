@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import tg.ngstars.interv.model.Intervention;
@@ -14,9 +16,7 @@ public interface InterventionRepository extends JpaRepository<Intervention, UUID
 
     List<Intervention> findByClientIdOrderByCreatedAtDesc(UUID clientId);
 
-    List<Intervention> findByStatusOrderByCreatedAtDesc(String status);
-
-    List<Intervention> findByActiveTrueOrderByCreatedAtDesc();
+    Page<Intervention> findByActiveTrueOrderByCreatedAtDesc(Pageable pageable);
 
     boolean existsByReference(String reference);
 }

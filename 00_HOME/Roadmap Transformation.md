@@ -57,11 +57,11 @@ modified: 2026-06-07
 
 | Projet | Statut | Impact Transformation |
 |--------|--------|----------------------|
-| [[06_PROJETS/Projet_NG-Fields/Index]] | 🚀 En développement | Digitalisation terrain |
-| [[06_PROJETS/Projet_Data]] | 🔄 En cours | Data-Driven |
-| [[06_PROJETS/Projet_ERP]] | 📋 Planifié | Centralisation SI |
-| [[06_PROJETS/Projet_IA]] | 💡 Réflexion | Innovation |
-| [[06_PROJETS/Projet_Automatisation]] | 📋 Planifié | Efficacité |
+| [[06_PROJETS/ng-fields/Backend/CLAUDE.md|Projet_NG-Fields]] | 🚀 En développement | Digitalisation terrain |
+| [[06_PROJETS/ng-fields/Index.md|Projet_Data]] | 🔄 En cours | Data-Driven |
+| [[05_SYSTEME_IT/Architecture Cible|Projet_ERP]] | 📋 Planifié | Centralisation SI |
+| [[06_PROJETS/ng-fields/Frontend/CLAUDE.md|Projet_IA]] | 💡 Réflexion | Innovation |
+| [[08_PROCESSUS/Processus IT|Projet_Automatisation]] | 📋 Planifié | Efficacité |
 
 ---
 

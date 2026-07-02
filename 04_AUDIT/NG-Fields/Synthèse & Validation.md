@@ -179,8 +179,8 @@ status: validé
 - [x] RGPD obligatoire
 
 ### Stack Technique
-- [x] **Application sur mesure** (React Native + Expo)
-- [x] **Backend API** (Node.js)
+- [x] **Application sur mesure** (Flutter/Dart)
+- [x] **Backend API** (Spring Boot)
 - [x] **Base de données** (PostgreSQL - existant)
 - [x] **Hébergement** : Cloud existant + Serveur dédié
 - [x] **Sécurité** : MFA, Chiffrement, Logs, Backup, PRA
@@ -214,11 +214,11 @@ status: validé
 
 | Composant | Solution Gratuite |
 |-----------|------------------|
-| Mobile | Expo (gratuit) |
-| Backend | Node.js auto-hébergé (existant) |
+| Mobile | Flutter (gratuit) |
+| Backend | Spring Boot auto-hébergé (existant) |
 | Database | PostgreSQL (existant) |
-| Auth | Firebase Auth (gratuit < 50k users) |
-| Storage (photos) | Cloudinary (500MB gratuit) ou S3 (existant) |
+| Auth | Keycloak auto-hébergé (existant) |
+| Storage (photos) | Supabase Storage (gratuit) |
 | Email | SendGrid (500 emails/jour gratuit) |
 | Monitoring | Sentry (gratuit) |
 | CI/CD | GitHub Actions (gratuit) |
@@ -255,4 +255,4 @@ status: validé
 - [[04_AUDIT/NG-Fields/Questions - Utilisateurs & Périmètre]]
 - [[04_AUDIT/NG-Fields/Questions - Fonctionnalités]]
 - [[04_AUDIT/NG-Fields/Questions - Technique & Budget]]
-- [[06_PROJETS/Projet_NG-Fields/Cahier des charges - NG-Fields]]
+- [[06_PROJETS/ng-fields/Backend/CLAUDE.md|Cahier des charges - NG-Fields]]

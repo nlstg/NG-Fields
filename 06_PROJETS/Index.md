@@ -7,7 +7,7 @@
 
 ## 📋 Projets en Cours
 
-### [[Projet_NG-Fields]]
+### [[06_PROJETS/ng-fields/Backend/CLAUDE.md|Projet_NG-Fields]]
 > Application mobile pour digitaliser les interventions terrain (FI-01-2025)
 - **Pilote** : Barnabe (Chef de projet)
 - **Validateur** : David (Responsable IT)
@@ -18,27 +18,27 @@
 - **Kick-off** : 28/05/2026
 - **Lancement MVP** : 17/07/2026
 - **Liens** :
-  - [[06_PROJETS/Projet_NG-Fields/Cahier des charges - NG-Fields]]
-  - [[06_PROJETS/Projet_NG-Fields/Description]]
-  - [[06_PROJETS/Projet_NG-Fields/Objectifs]]
-  - [[06_PROJETS/Projet_NG-Fields/Technologies]]
-  - [[06_PROJETS/Projet_NG-Fields/Roadmap]]
-  - [[06_PROJETS/Projet_NG-Fields/Backlog]]
-  - [[06_PROJETS/Projet_NG-Fields/OpenProject]]
-  - [[06_PROJETS/Projet_NG-Fields/GitHub]]
-  - [[06_PROJETS/Projet_NG-Fields/Setup]]
+  - [[06_PROJETS/ng-fields/Backend/CLAUDE.md|Cahier des charges - NG-Fields]]
+  - [[06_PROJETS/ng-fields/Index.md|Description]]
+  - [[06_PROJETS/ng-fields/Index.md|Objectifs]]
+  - [[06_PROJETS/ng-fields/Frontend/CLAUDE.md|Technologies]]
+  - [[06_PROJETS/ng-fields/README.md|Roadmap]]
+  - [[06_PROJETS/ng-fields/Backend/pom.xml|Backlog]]
+  - [[06_PROJETS/ng-fields/README.md|OpenProject]]
+  - [[06_PROJETS/ng-fields/README.md|GitHub]]
+  - [[06_PROJETS/ng-fields/README.md|Setup]]
 
-### [[Projet ERP]]
+### [[05_SYSTEME_IT/Architecture Cible|Projet ERP]]
 > Refonte du système ERP pour centraliser les données
 - **Pilote** : DSI
 - **Statut** : Planifié
-- **Liens** : [[05_SYSTEME_IT/Architecture Cible]], [[04_AUDIT/Audit IT]]
+- **Liens** : [[06_PROJETS/Index|05_SYSTEME_IT/Architecture Cible]], [[04_AUDIT/Audit IT]]
 
-### [[Projet SAAS]]
+### [[Projet SAAS|Projet SAAS]]
 > _Projet SaaS_
 - **Pilote** : _
 - **Statut** : En cours
-- **Liens** : [[06_PROJETS/Projet SAAS/Presentation]]
+- **Liens** : [[05_SYSTEME_IT/Architecture Cible]], [[04_AUDIT/Audit IT]]
 
 ### [[Projet App_Unique]]
 > Application unique pour simplifier les outils métier

@@ -473,7 +473,7 @@ Claude: Pas de problème ! On retire complètement la connexion à OpenProject..
 ### 📎 Fichiers Mentionnés
 - [[99_ARCHIVES/FI-01-2025_MODEL V2]]
 - [[99_ARCHIVES/ng_field_project_architecture.svg]]
-- [[06_PROJETS/Projet_NG-Fields/Description]]
+- [[06_PROJETS/ng-fields/Backend/CLAUDE.md|Description]]
 
 ---
 

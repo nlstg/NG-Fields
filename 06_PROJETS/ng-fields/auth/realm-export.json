@@ -29,7 +29,7 @@
   "sslRequired": "external",
   "registrationAllowed": true,
   "registrationEmailAsUsername": false,
-  "rememberMe": false,
+  "rememberMe": true,
   "verifyEmail": false,
   "loginWithEmailAllowed": true,
   "duplicateEmailsAllowed": false,
@@ -777,7 +777,7 @@
         "oidc.ciba.grant.enabled": "false",
         "backchannel.logout.session.required": "true",
         "display.on.consent.screen": "false",
-        "client.secret": "52ea9581183043ce8060d6a1df4402da",
+        "client.secret": "**********",
         "dpop.bound.access.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},
@@ -875,7 +875,7 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "http://localhost:4200/*"
+        "http://localhost:4200/callback"
       ],
       "webOrigins": [
         "http://localhost:4200"
@@ -891,18 +891,29 @@
       "frontchannelLogout": true,
       "protocol": "openid-connect",
       "attributes": {
+        "id.token.as.detached.signature": "false",
         "logout.confirmation.enabled": "false",
+        "client.introspection.response.allow.jwt.claim.enabled": "false",
         "standard.token.exchange.enabled": "false",
         "oauth2.jwt.authorization.grant.enabled": "false",
-        "post.logout.redirect.uris": "http://localhost:4200/*",
+        "post.logout.redirect.uris": "http://localhost:4200",
         "frontchannel.logout.session.required": "true",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false",
+        "use.refresh.tokens": "true",
         "realm_client": "false",
         "oidc.ciba.grant.enabled": "false",
+        "client.use.lightweight.access.token.enabled": "false",
         "backchannel.logout.session.required": "true",
+        "request.object.required": "not required",
+        "client_credentials.use_refresh_token": "false",
+        "access.token.header.type.rfc9068": "false",
+        "tls.client.certificate.bound.access.tokens": "false",
+        "require.pushed.authorization.requests": "false",
+        "acr.loa.map": "{}",
         "display.on.consent.screen": "false",
         "pkce.code.challenge.method": "S256",
+        "token.response.type.bearer.lower-case": "false",
         "dpop.bound.access.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},

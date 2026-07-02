@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import jakarta.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -45,8 +47,8 @@ public class InterventionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<InterventionResponse>> getInterventions() {
-        return ResponseEntity.ok(interventionService.getInterventions());
+    public ResponseEntity<Page<InterventionResponse>> getInterventions(Pageable pageable) {
+        return ResponseEntity.ok(interventionService.getInterventions(pageable));
     }
 
     @GetMapping("/{id}")

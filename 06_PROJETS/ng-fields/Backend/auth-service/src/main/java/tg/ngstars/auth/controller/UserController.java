@@ -35,7 +35,7 @@ public class UserController {
     public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request,
             HttpServletRequest httpRequest) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(userService.createUser(request, httpRequest.getRemoteAddr()));
+                .body(userService.createUser(request, clientIp(httpRequest)));
     }
 
     @GetMapping("/api/admin/users")
@@ -55,14 +55,14 @@ public class UserController {
     public ResponseEntity<UserResponse> updateUser(@PathVariable UUID id,
             @Valid @RequestBody CreateUserRequest request,
             HttpServletRequest httpRequest) {
-        return ResponseEntity.ok(userService.updateUser(id, request, httpRequest.getRemoteAddr()));
+        return ResponseEntity.ok(userService.updateUser(id, request, clientIp(httpRequest)));
     }
 
     @DeleteMapping("/api/admin/users/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteUser(@PathVariable UUID id,
             HttpServletRequest httpRequest) {
-        userService.deleteUser(id, httpRequest.getRemoteAddr());
+        userService.deleteUser(id, clientIp(httpRequest));
         return ResponseEntity.noContent().build();
     }
 
@@ -75,13 +75,20 @@ public class UserController {
     public ResponseEntity<UserResponse> updateProfile(@RequestBody CreateUserRequest request,
             HttpServletRequest httpRequest) {
         return ResponseEntity.ok(userService.updateProfile(
-                request.name(), request.phone(), httpRequest.getRemoteAddr()));
+                request.name(), request.phone(), clientIp(httpRequest)));
     }
 
     @PostMapping("/api/public/register")
     public ResponseEntity<UserResponse> register(@Valid @RequestBody CreateUserRequest request,
             HttpServletRequest httpRequest) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(userService.registerClient(request, httpRequest.getRemoteAddr()));
+                .body(userService.registerClient(request, clientIp(httpRequest)));
+    }
+
+    private static String clientIp(HttpServletRequest request) {
+        var xff = request.getHeader("X-Forwarded-For");
+        if (xff != null && !xff.isBlank())
+            return xff.split(",")[0].trim();
+        return request.getRemoteAddr();
     }
 }

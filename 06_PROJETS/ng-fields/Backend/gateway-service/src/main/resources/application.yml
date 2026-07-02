@@ -14,7 +14,7 @@ spring:
         - id: auth-service
           uri: http://localhost:8081
           predicates:
-            - Path=/api/auth/**,/api/admin/users/**,/api/users/**,/api/public/**
+            - Path=/api/admin/users/**,/api/users/**,/api/public/**
           filters:
             - StripPrefix=0
 
@@ -49,7 +49,7 @@ springdoc:
     path: /swagger-ui.html
     urls:
       - name: auth-service
-        url: /api/auth/v3/api-docs
+        url: /api/admin/users/v3/api-docs
       - name: client-service
         url: /api/admin/clients/v3/api-docs
       - name: intervention-service

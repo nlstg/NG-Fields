@@ -16,10 +16,10 @@
 ## 👥 Départements
 - [[03_DEPARTEMENTS/RH/Audit RH|RH]]
 - [[DSI]] - Direction Système IT
-- [[03_DEPARTEMENTS/COMPTA/Processus RH|COMPTA]]
-- [[03_DEPARTEMENTS/DEV M/Processus RH|DEV M]]
-- [[03_DEPARTEMENTS/ASI/Processus RH|ASI]]
-- [[03_DEPARTEMENTS/DEV M/Processus RH|TEST]]
+- [[03_DEPARTEMENTS/COMPTA/Processus|COMPTA]]
+- [[03_DEPARTEMENTS/DEV M/Processus|DEV M]]
+- [[03_DEPARTEMENTS/ASI/Processus|ASI]]
+- [[03_DEPARTEMENTS/DEV M/Processus|TEST]]
 
 ---
 
@@ -44,18 +44,18 @@
 
 ## 🚀 Projets
 - [[06_PROJETS/Index|Todos les Projets]]
-- [[06_PROJETS/Projet_NG-Fields/Description|NG-Fields]] ⭐ Nouveau
-- [[06_PROJETS/Projet/Projet_ERP/Description|Projet ERP]]
-- [[06_PROJETS/Projet/Projet_IA/Description|Projet IA]]
-- [[06_PROJETS/Projet/Projet_Data/Description|Projet Data]]
-- [[06_PROJETS/Projet/Projet_Automatisation/Description|Projet Automatisation]]
+- [[06_PROJETS/ng-fields/Backend/CLAUDE.md|NG-Fields]] ⭐ Nouveau
+- [[06_PROJETS/ng-fields/Index.md|Projet ERP]]
+- [[06_PROJETS/ng-fields/Frontend/CLAUDE.md|Projet IA]]
+- [[06_PROJETS/ng-fields/README.md|Projet Data]]
+- [[06_PROJETS/ng-fields/README.md|Projet Automatisation]]
 
 ---
 
 ## 📊 Data & IA
 - [[07_DATA_IA/Stratégie Data|Stratégie Data]]
-- [[07_DATA_IA/Dashboard|Dashboard Data]]
-- [[07_DATA_IA/Cas d'usage IA|Cas d'usage IA]]
+- [[07_DATA_IA/Index|Dashboard Data]]
+- [[07_DATA_IA/Questions - Utilisateurs & Périmètre|Cas d'usage IA]]
 - [[07_DATA_IA/Modèles IA|Modèles IA]]
 
 ---

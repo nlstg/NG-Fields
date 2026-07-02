@@ -108,7 +108,7 @@ public class UserService {
         if (request.role() != null && !request.role().equals(user.getRole()))
             assignRealmRole(kcIdStr, request.role());
 
-        user.setName(request.email());
+        user.setName(request.name());
         user.setEmail(request.email());
         user.setRole(request.role());
         user.setDepartment(request.department());

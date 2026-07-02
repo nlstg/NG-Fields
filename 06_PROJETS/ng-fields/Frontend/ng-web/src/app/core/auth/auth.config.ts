@@ -11,4 +11,5 @@ export const authConfig: OpenIdConfiguration = {
   silentRenew: environment.keycloak.silentRenew,
   useRefreshToken: environment.keycloak.useRefreshToken,
   renewTimeBeforeTokenExpiresInSeconds: environment.keycloak.renewTimeBeforeTokenExpiresInSeconds,
+  postLoginRoute: '/dashboard',
 };

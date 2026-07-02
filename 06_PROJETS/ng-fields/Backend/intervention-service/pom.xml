@@ -18,6 +18,7 @@
         <java.version>25</java.version>
         <springdoc.version>2.3.0</springdoc.version>
         <openpdf.version>1.4.1</openpdf.version>
+        <flyway.version>12.9.0</flyway.version>
     </properties>
     <dependencies>
         <dependency>
@@ -54,8 +55,8 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-flyway</artifactId>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>

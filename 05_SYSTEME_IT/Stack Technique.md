@@ -34,6 +34,6 @@ modified: 2026-06-07
 
 ## 🔗 Liens
 
-- [[06_PROJETS/Projet_NG-Fields/Technologies]]
+- [[06_PROJETS/ng-fields/Frontend/CLAUDE.md|Technologies]]
 - [[05_SYSTEME_IT/Architecture Cible]]
 - [[09_STRATEGIE/Transformation Digitale]]

@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/ng_fields_test
+    username: ng_fields_test_user
+    password: NgFieldsTest_Pg_2026!
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+
+logging:
+  level:
+    org.springframework.security: WARN
+    tg.ngstars: DEBUG

@@ -11,8 +11,13 @@ public class SecurityUtils {
 
     public UUID getCurrentUserId() {
         var auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null || !auth.isAuthenticated() || !(auth.getPrincipal() instanceof Jwt jwt))
+        if (auth == null || !auth.isAuthenticated() || !(auth.getPrincipal() instanceof Jwt jwt)
+                || jwt.getSubject() == null)
             return null;
-        return UUID.fromString(jwt.getSubject());
+        try {
+            return UUID.fromString(jwt.getSubject());
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 }

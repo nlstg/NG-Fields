@@ -33,4 +33,4 @@ status: terminé
 ## 🔗 Liens
 
 - [[04_AUDIT/Index]]
-- [[06_PROJETS/Projet_NG-Fields/Cahier des charges - NG-Fields]]
+- [[06_PROJETS/ng-fields/Backend/CLAUDE.md|Cahier des charges - NG-Fields]]

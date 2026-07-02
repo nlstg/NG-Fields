@@ -1,0 +1,42 @@
+# Keycloak distribution (full server, hundreds of MB)
+apps/keycloak-26.6.2/
+
+# Build artifacts
+apps/ng-fields-api/target/
+apps/ng-fields-api/native/
+apps/ng-fields-api/*.jar
+
+# Maven wrapper cache
+apps/ng-fields-api/.mvn/wrapper/maven-wrapper.jar
+apps/ng-fields-api/wrapper/
+
+# IDE
+apps/ng-fields-api/.idea/
+*.iml
+.vscode/
+
+# Temp / cache
+apps/ng-fields-api/.tmp/
+apps/ng-fields-api/caches/
+apps/ng-fields-api/daemon/
+apps/ng-fields-api/logs/
+
+# Flutter build
+apps/mobile/build/
+apps/mobile/.dart_tool/
+apps/mobile/.packages
+apps/mobile/.pub/
+
+# Logs
+*.log
+*.log.*
+apps/ng-fields-api/*.log.err
+
+# Archives
+*.zip
+*.gz
+*.tar
+
+# OS
+.DS_Store
+Thumbs.db

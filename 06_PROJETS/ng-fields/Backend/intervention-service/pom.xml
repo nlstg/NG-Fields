@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.6</version>
+        <version>4.1.0</version>
         <relativePath/>
     </parent>
     <groupId>tg.ngstars</groupId>
@@ -16,9 +16,8 @@
     <description>Intervention Management Service</description>
     <properties>
         <java.version>25</java.version>
-        <springdoc.version>2.3.0</springdoc.version>
-        <openpdf.version>1.4.1</openpdf.version>
-        <flyway.version>12.9.0</flyway.version>
+        <springdoc.version>3.0.3</springdoc.version>
+        
     </properties>
     <dependencies>
         <dependency>
@@ -70,7 +69,7 @@
         <dependency>
             <groupId>com.github.librepdf</groupId>
             <artifactId>openpdf</artifactId>
-            <version>${openpdf.version}</version>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

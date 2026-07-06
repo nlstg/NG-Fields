@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThemeService, ThemeMode, ThemePreset } from '../../../../core/theme/theme.service';
+import { SidebarService, SidebarLayoutMode, SidebarCollapsibleMode } from '../../../../core/sidebar/sidebar.service';
 
 @Component({
   selector: 'app-layout-controls',
@@ -11,13 +12,26 @@ import { ThemeService, ThemeMode, ThemePreset } from '../../../../core/theme/the
 })
 export class LayoutControlsComponent {
   private theme = inject(ThemeService);
+  private sidebar = inject(SidebarService);
   isOpen = signal(false);
 
-  presets: ThemePreset[] = ['default', 'brutalist', 'soft-pop', 'tangerine'];
+  presets: ThemePreset[] = ['default'];
   modes: { value: ThemeMode; label: string }[] = [
     { value: 'light', label: 'Light' },
     { value: 'dark', label: 'Dark' },
     { value: 'system', label: 'System' },
+  ];
+
+  sidebarVariants: { value: SidebarLayoutMode; label: string }[] = [
+    { value: 'sidebar', label: 'Sidebar' },
+    { value: 'inset', label: 'Inset' },
+    { value: 'floating', label: 'Floating' },
+  ];
+
+  sidebarCollapsibles: { value: SidebarCollapsibleMode; label: string }[] = [
+    { value: 'icon', label: 'Icon' },
+    { value: 'offcanvas', label: 'Offcanvas' },
+    { value: 'none', label: 'None' },
   ];
 
   fonts = [
@@ -29,9 +43,13 @@ export class LayoutControlsComponent {
 
   get currentMode(): ThemeMode { return this.theme.currentMode; }
   get currentPreset(): ThemePreset { return this.theme.currentPreset; }
+  get layoutMode() { return this.sidebar.layoutMode; }
+  get collapsibleMode() { return this.sidebar.collapsibleMode; }
 
   setMode(mode: ThemeMode): void { this.theme.setThemeMode(mode); }
   setPreset(preset: ThemePreset): void { this.theme.setThemePreset(preset); }
+  setLayoutMode(mode: SidebarLayoutMode): void { this.sidebar.setLayoutMode(mode); }
+  setCollapsibleMode(mode: SidebarCollapsibleMode): void { this.sidebar.setCollapsibleMode(mode); }
 
   setFont(font: string): void {
     document.documentElement.style.fontFamily = font;

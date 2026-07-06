@@ -3,27 +3,42 @@ tags:
   - projet
   - ng-fields
   - technologies
-created: 2026-06-03
-status: v2
+created: 2026-07-03
+status: v3
 ---
 
 # Stack Technique — NG-Fields
+
+## Architecture microservices
+
+```
+┌──────────┐     ┌──────────┐     ┌──────────┐     ┌────────────┐     ┌──────────┐
+│ Gateway  │────▶│ Auth     │────▶│ Client   │────▶│Intervention│────▶│ Media    │
+│ :8080    │     │ :8081    │     │ :8082    │     │ :8083      │     │ :8084    │
+│ WebFlux  │     │ MVC      │     │ MVC      │     │ MVC        │     │ MVC      │
+└──────────┘     └──────────┘     └──────────┘     └────────────┘     └──────────┘
+```
+
+Tous les appels clients passent par le **Gateway** (Spring Cloud Gateway WebFlux). Chaque service expose son API REST derrière le gateway. Le gateway gère l'authentification JWT, le rate limiting (Redis), et le routage.
+
+---
 
 ## Stack retenue
 
 | Couche | Technologie | Version | Usage |
 |--------|-------------|---------|-------|
-| Backend | Spring Boot | 4.0.6 | API REST |
+| Backend | Spring Boot | 4.1.0 | API REST (5 microservices) |
+| Gateway | Spring Cloud Gateway | 2025.1.2 | Routage, auth, rate limiting |
 | Langage backend | Java | 25 | — |
 | Build | Maven | Wrapper | — |
 | ORM | Spring Data JPA + Hibernate | — | Persistance |
-| Auth | Keycloak (OAuth2/OIDC) | 26.6.2 | SSO + RBAC |
-| API Docs | SpringDoc OpenAPI | — | Swagger UI |
+| Auth | Keycloak (OAuth2/OIDC) | 26.0.9 | SSO + RBAC |
+| API Docs | SpringDoc OpenAPI | 3.0.3 | Swagger UI |
 | PDF | OpenPDF | 1.4.1 | Génération rapports |
 | QR Code | ZXing | 3.5.3 | QR dans les PDF |
-| Base de données | PostgreSQL | 16 | via Supabase |
+| Base de données | PostgreSQL | 18 | Principale |
 | Migrations | Flyway | — | Versioning schéma |
-| Cache / Queue | Redis | 7+ | Async queue |
+| Cache / Rate Limiting | Redis | 7+ | Gateway |
 | Mobile | Flutter | 3.x | App terrain |
 | Langage mobile | Dart | 3.x | — |
 | State management | Riverpod | — | Flutter |
@@ -32,39 +47,20 @@ status: v2
 | Web | Angular | 18+ | Dashboard manager |
 | CI/CD | GitHub Actions | — | Pipeline |
 | Monitoring | Sentry | free | Errors |
-| Storage | Supabase Storage | — | Photos, PDF, signatures |
 
 ---
 
-## Stack Mobile — Flutter
+## Services backend
 
-| Composant | Technologie |
-|-----------|-------------|
-| Framework | Flutter 3.x |
-| Langage | Dart 3.x |
-| State Management | Riverpod |
-| Navigation | GoRouter |
-| UI | Material 3 (Android) + Cupertino (iOS) |
-| Base locale (offline) | Drift (SQLite) |
-| HTTP Client | Dio |
-| Signature | signature |
-| Camera | image_picker |
-| GPS | geolocator |
-| Secure storage | flutter_secure_storage |
-| Notifications | Firebase Cloud Messaging |
+| Service | Port | Technologie | Dépendances |
+|---------|------|-------------|-------------|
+| gateway-service | 8080 | Spring Cloud Gateway (WebFlux) | Redis, Keycloak |
+| auth-service | 8081 | Spring Boot MVC | PostgreSQL (schema `auth`), Keycloak Admin API |
+| client-service | 8082 | Spring Boot MVC | PostgreSQL (schema `client`) |
+| intervention-service | 8083 | Spring Boot MVC | PostgreSQL (schema `intervention`), media-service, OpenPDF |
+| media-service | 8084 | Spring Boot MVC | Filesystem (`./uploads`) |
 
----
-
-## Stack Web — Angular
-
-| Composant | Technologie |
-|-----------|-------------|
-| Framework | Angular 18+ |
-| Langage | TypeScript |
-| UI | Angular Material |
-| Graphiques | Chart.js ou ngx-charts |
-| HTTP Client | HttpClient (Angular) |
-| Auth | OIDC Client (angular-auth-oidc-client) |
+Les tests d'intégration (`@SpringBootTest`) ont été supprimés — la couverture est assurée par la collection Postman.
 
 ---
 
@@ -72,21 +68,21 @@ status: v2
 
 | Composant | Technologie |
 |-----------|-------------|
-| Framework | Spring Boot 4.0.6 |
+| Framework | Spring Boot 4.1.0 |
 | Runtime | Java 25 |
 | Build | Maven |
 | ORM | Spring Data JPA + Hibernate |
 | Auth | Spring Security + OAuth2 Resource Server |
+| Gateway | Spring Cloud Gateway WebFlux + CircuitBreaker |
 | Migrations | Flyway |
 | Validation | Jakarta Validation + Hibernate Validator |
-| Documentation | SpringDoc OpenAPI (Swagger) |
+| Documentation | SpringDoc OpenAPI (Swagger) 3.0.3 |
 | PDF | OpenPDF + ZXing |
-| Queue | Redis (Redisson/Spring Data Redis) |
-| Email | Spring Mail (JavaMail) + SendGrid |
-| WhatsApp | Meta Cloud API (Twilio) |
+| Cache / Rate Limiting | Redis (Spring Data Redis Reactive) |
+| Email | Spring Mail (JavaMail) |
+| WhatsApp | Meta Cloud API |
 | OpenProject | API REST v3 |
-| Monitoring | Spring Actuator + Micrometer + Prometheus |
-| Logs | Logback + logstash-logback-encoder (JSON) |
+| Logs | Logback |
 
 ---
 
@@ -94,9 +90,9 @@ status: v2
 
 | Composant | Technologie |
 |-----------|-------------|
-| Primary | PostgreSQL 16 via Supabase (free tier) |
-| Cache / Queue | Redis 7+ (local Docker) |
-| Files | Supabase Storage (S3-compatible, 1 Go free) |
+| Primary | PostgreSQL 18 (localhost) |
+| Cache / Rate Limiting | Redis 7+ |
+| Files | Filesystem (`./uploads/`) |
 | Mobile offline | Drift (SQLite) |
 
 ---
@@ -105,11 +101,8 @@ status: v2
 
 | Composant | Technologie |
 |-----------|-------------|
-| Database | Supabase Cloud (free tier) |
-| Storage | Supabase Storage |
 | CI/CD | GitHub Actions |
 | Monitoring | Sentry (free tier) |
-| Backup | Supabase backup auto |
 
 ---
 
@@ -117,10 +110,7 @@ status: v2
 
 | Poste | Coût |
 |-------|------|
-| Supabase (free tier) | 0 € |
 | GitHub (free) | 0 € |
-| SendGrid (Free) | 0 € |
-| Twilio WhatsApp | À l'usage |
 | Sentry (Free) | 0 € |
 | **Total projet** | **0 €** |
 
@@ -130,13 +120,12 @@ status: v2
 
 | Exigence | Implémentation |
 |----------|----------------|
-| HTTPS | TLS 1.3 (Let's Encrypt / Caddy) |
+| HTTPS | TLS 1.3 |
 | Auth | JWT + Refresh Token + RBAC (Keycloak) |
-| BDD | TLS en transit (Supabase) |
 | Offline | Chiffrement local (Drift encrypt) |
-| Audit trail | Logs applicatifs + table `audit_logs` |
+| Audit trail | Table `audit_logs` (schema `auth`) |
 | RGPD | Consentement + droit effacement + registre |
 
 ---
 
-_Version 2.0 — 03/06/2026_
+_Version 3.0 — 03/07/2026_

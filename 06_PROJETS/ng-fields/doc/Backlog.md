@@ -4,7 +4,7 @@ tags:
   - ng-fields
   - backlog
 created: 2026-06-03
-status: v3.2
+status: v4.0
 ---
 
 # Backlog Produit — NG-Fields
@@ -12,10 +12,10 @@ status: v3.2
 **Projet :** NG-Fields — Digitalisation de la gestion des interventions terrain
 **Période :** 1 juin — 17 juillet 2026
 **Méthodologie :** Agile Scrum — Sprints hebdomadaires
-**Stack :** Spring Boot 4.0.6 / Java 25 + Angular 18+ / TypeScript + Flutter 3.x / Dart + Keycloak 26.6.2 + Supabase
+**Stack :** Spring Boot 4.0.6 / Java 25 + Angular 21 / TypeScript + Flutter 3.x / Dart + Keycloak 26.6.2 + Supabase
 **Rédigé par :** FOLLY Nelson Emmanuel
 **Validateur :** David KATOH
-**Version :** 3.2 — 04/06/2026
+**Version :** 4.0 — 02/07/2026
 
 ---
 
@@ -485,7 +485,7 @@ Tous les endpoints backend, zéro frontend. L'API est testable via Swagger/Postm
 
 ### Sprint V0-S3 (15-19 juin) — Media, Sync & Envoi API
 
-**Statut :** 🔴 PENDING
+**Statut :** 🟡 IN_PROGRESS (portage monolithe → microservices terminé le 02/07)
 **Git :** `git checkout -b feature/V0-S3`
 
 ---
@@ -655,7 +655,7 @@ Tous les écrans web Angular, connectés à l'API V0.
 
 ### Sprint V01-S1 (22-26 juin) — Dashboard Angular
 
-**Statut :** 🔴 PENDING
+**Statut :** 🟡 IN_PROGRESS (scaffolding fait, features métier à implémenter)
 **Git :** `git checkout develop && git pull && git checkout -b feature/V01-S1`
 
 ---
@@ -787,7 +787,7 @@ Tous les écrans web Angular, connectés à l'API V0.
 
 ### Sprint V01-S2 (29 juin-3 juillet) — Portail & Intégrations
 
-**Statut :** 🔴 PENDING
+**Statut :** 🟡 IN_PROGRESS (en cours)
 **Git :** `git checkout develop && git pull && git checkout -b feature/V01-S2`
 
 ---
@@ -1250,15 +1250,15 @@ Tous les écrans Flutter, mode hors-ligne, notifications.
 
 ---
 
-## Statut par sprint (04/06/2026)
+## Statut par sprint (02/07/2026)
 
 | Sprint | Dates | Statut | US COMPLETED | US IN PROGRESS | US PENDING |
 |--------|-------|--------|--------------|----------------|------------|
-| V0-S1 | 1-6 juin | 🟡 IN_PROGRESS | US-005, US-006 | US-001, US-002, US-004, US-007 | US-003, US-008 |
-| V0-S2 | 8-12 juin | 🔴 PENDING | US-009, US-011, US-014 | US-018 | US-010, US-012, US-013, US-017 |
-| V0-S3 | 15-19 juin | 🔴 PENDING | US-015, US-016, US-021 | — | US-019, US-020, US-022, US-023 |
-| V01-S1 | 22-26 juin | 🔴 PENDING | — | — | US-028, US-029, US-007W, US-009W, US-011W |
-| V01-S2 | 29 juin-3 juillet | 🔴 PENDING | — | — | US-026, US-027, US-030 |
+| V0-S1 | 1-6 juin | 🟢 COMPLETED | US-001, US-002, US-003, US-004, US-005, US-006, US-007, US-008 | — | — |
+| V0-S2 | 8-12 juin | 🟡 IN_PROGRESS | US-009, US-011, US-014 | US-018 | US-010, US-012, US-013, US-017 |
+| V0-S3 | 15-19 juin | 🟡 IN_PROGRESS | US-015, US-016, US-021 | — | US-019, US-020, US-022, US-023 |
+| V01-S1 | 22-26 juin | 🟡 IN_PROGRESS | — | — | US-028, US-029, US-007W, US-009W, US-011W |
+| V01-S2 | 29 juin-3 juillet | 🟡 IN_PROGRESS | — | — | US-026, US-027, US-030 |
 | V1-S1 | 6-10 juillet | 🔴 PENDING | — | — | US-007M, US-008M, US-009M, US-011M, US-012M, US-013M, US-018M |
 | V1-S2 | 13-17 juillet | 🔴 PENDING | — | — | US-015M, US-016M, US-017M, US-019M, US-020M, US-021M, US-022M, US-023M, US-024, US-025, US-031, US-032, US-033, US-034 |
 
@@ -1268,10 +1268,10 @@ Tous les écrans Flutter, mode hors-ligne, notifications.
 
 | Version | Sprints | US | SP | COMPLETED | IN PROGRESS | Livrables |
 |---------|---------|----|----|-----------|-------------|-----------|
-| **V0** | 3 (1-19 juin) | 23 API | ~75 | 7 | 4 (US-001, 002, 004, 007, 018) | Tous les endpoints backend |
+| **V0** | 3 (1-19 juin) | 23 API | ~75 | 10 (US-001→008, 015, 016) | 1 (US-018) | Tous les endpoints backend (photos + signatures portés le 02/07) |
 | **V0.1** | 2 (22 juin-3 juillet) | 9 Web | ~45 | — | — | Dashboard Angular, portail |
 | **V1** | 2 (6-17 juillet) | 17 Mobile | ~50 | — | — | App Flutter complète |
-| **Total** | **7 sprints** | **~29 US** | **~170 SP** | **7** | **4** | |
+| **Total** | **7 sprints** | **~29 US** | **~170 SP** | **10** | **1** | |
 
 ---
 
@@ -1326,4 +1326,4 @@ V1   : Tous écrans Mobile + 024 → 025 → 031 → 032 → 033/034
 
 ---
 
-_Version 3.2 — 04/06/2026 — Prochaine révision : fin V0-S1 (06/06/2026)_
+_Version 4.0 — 02/07/2026 — Prochaine révision : fin V01-S2 (03/07/2026)_

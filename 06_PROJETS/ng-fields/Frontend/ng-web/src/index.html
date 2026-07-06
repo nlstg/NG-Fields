@@ -2,7 +2,10 @@
 <html lang="en" data-theme-mode="light" data-theme-preset="default" data-content-layout="full-width" data-navbar-style="sticky" data-sidebar-variant="inset" data-sidebar-collapsible="icon">
 <head>
   <meta charset="utf-8">
-  <title>NG-Fields</title>
+  <title>NG-STARs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&family=Fira+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -17,7 +20,7 @@
         var keys = ['theme_mode','theme_preset','content_layout','navbar_style','sidebar_variant','sidebar_collapsible'];
         var defaults = { theme_mode:'light', theme_preset:'default', content_layout:'full-width', navbar_style:'sticky', sidebar_variant:'inset', sidebar_collapsible:'icon' };
         keys.forEach(function(k) {
-          var v = readCookie('ng-fields-' + k) || defaults[k];
+          var v = readCookie('ng-stars-' + k) || defaults[k];
           root.setAttribute('data-' + k, v);
         });
         var mode = root.getAttribute('data-theme-mode');

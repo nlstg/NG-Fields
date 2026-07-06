@@ -42,7 +42,6 @@ Desktop.ini
 100_Formation/*.pdf
 
 # Git worktrees
-*.worktrees/
 
 # Large binaries
 *.exe

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +32,13 @@ public class FileController {
     @PostMapping("/upload")
     public ResponseEntity<Map<String, String>> upload(@RequestParam("file") MultipartFile file) {
         var filename = fileService.store(file);
+        return ResponseEntity.ok(Map.of("filename", filename));
+    }
+
+    @PostMapping("/upload-base64")
+    public ResponseEntity<Map<String, String>> uploadBase64(@RequestBody Map<String, String> body) {
+        var data = java.util.Base64.getDecoder().decode(body.get("data"));
+        var filename = fileService.storeBytes(data, "png");
         return ResponseEntity.ok(Map.of("filename", filename));
     }
 

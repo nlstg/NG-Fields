@@ -1,28 +1,49 @@
-<div class="relative inline-block w-full">
-  <div (click)="toggle()" class="flex items-center gap-2 px-2 py-1.5 cursor-pointer rounded-md hover:bg-sidebar-accent">
-    <div class="size-8 rounded-lg bg-sidebar-primary text-sidebar-primary-foreground flex items-center justify-center text-sm font-medium">
-      {{ user.name.split(' ').map(w => w[0]).join('').slice(0, 2) }}
-    </div>
-    <div class="grid text-left text-sm leading-tight">
-      <span class="truncate font-semibold">{{ user.name }}</span>
-      <span class="truncate text-xs text-sidebar-foreground/70">{{ user.email }}</span>
-    </div>
-  </div>
-  @if (isOpen()) {
-    <div class="absolute left-0 top-full z-50 mt-1 min-w-[200px] rounded-lg border bg-popover p-1 shadow-md" (click)="close()">
-      @for (item of menuItems; track item.id) {
-        @if (item.separator) {
-          <div class="my-1 border-t"></div>
-        } @else if (item.url) {
-          <a [routerLink]="item.url" (click)="close()" class="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-accent cursor-pointer">
-            {{ item.label }}
-          </a>
-        } @else {
-          <div (click)="item.onClick?.(); close()" class="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-accent cursor-pointer">
-            {{ item.label }}
+<ul class="flex w-full min-w-0 flex-col gap-0">
+  <li class="group/menu-item relative">
+    <div class="relative inline-block w-full">
+      <button (click)="toggle()" class="peer/menu-button group/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-[width,height,padding] group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! group-data-[collapsible=icon]:justify-center">
+        <span class="flex size-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground text-sm font-medium">
+          {{ getInitials(user.name) }}
+        </span>
+        <div class="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
+          <span class="truncate font-medium">{{ user.name }}</span>
+          <span class="truncate text-xs text-sidebar-foreground/70">{{ user.email }}</span>
+        </div>
+        <app-icon name="ellipsis-vertical" class="ml-auto size-4 shrink-0 group-data-[collapsible=icon]:hidden" />
+      </button>
+      @if (isOpen()) {
+        <div class="absolute z-50 mt-1 min-w-56 rounded-lg border bg-popover p-1 shadow-md" [class.left-0]="sidebar.sidebarOpen()" [class.left-full]="!sidebar.sidebarOpen()" [class.ml-1]="!sidebar.sidebarOpen()" [class.-top-2]="!sidebar.sidebarOpen()" style="top: auto;">
+          <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+            <span class="flex size-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground text-sm font-medium">
+              {{ getInitials(user.name) }}
+            </span>
+            <div class="grid flex-1 text-left text-sm leading-tight">
+              <span class="truncate font-medium">{{ user.name }}</span>
+              <span class="truncate text-xs text-muted-foreground">{{ user.email }}</span>
+            </div>
           </div>
-        }
+          <div class="-mx-1 my-1 h-px bg-border"></div>
+          @for (item of menuItems; track item.id) {
+            @if (item.separator) {
+              <div class="-mx-1 my-1 h-px bg-border"></div>
+            } @else if (item.url) {
+              <a [routerLink]="item.url" (click)="close()" class="relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-popover-foreground outline-none transition-colors hover:bg-accent hover:text-accent-foreground">
+                @if (item.icon) {
+                  <app-icon [name]="item.icon" class="size-4 shrink-0" />
+                }
+                {{ item.label }}
+              </a>
+            } @else {
+              <button (click)="item.onClick?.(); close()" class="relative flex w-full cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-popover-foreground outline-none transition-colors hover:bg-accent hover:text-accent-foreground">
+                @if (item.icon) {
+                  <app-icon [name]="item.icon" class="size-4 shrink-0" />
+                }
+                {{ item.label }}
+              </button>
+            }
+          }
+        </div>
       }
     </div>
-  }
-</div>
+  </li>
+</ul>

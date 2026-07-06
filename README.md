@@ -1,4 +1,4 @@
-# NG-STARs — Coffre DSI & Transformation Digitale
+# NG-STARs 
 
 Bienvenue dans le coffre Obsidian de la **Direction des Systèmes d'Information (DSI)** de NG-STARs.
 

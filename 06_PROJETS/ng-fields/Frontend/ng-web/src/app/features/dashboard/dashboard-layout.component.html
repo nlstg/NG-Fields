@@ -1,13 +1,25 @@
-<div class="flex min-h-svh w-full">
+<div
+  class="group/sidebar-wrapper flex min-h-svh w-full has-data-[variant=inset]:bg-sidebar"
+  style="--sidebar-width: 16rem; --sidebar-width-icon: 3rem"
+>
   <app-sidebar></app-sidebar>
   <main class="relative flex w-full flex-1 flex-col bg-background min-w-0 overflow-x-hidden">
-    <header class="flex h-12 shrink-0 items-center gap-2 border-b sticky top-0 z-50 bg-background/50 backdrop-blur-md">
+    <header
+      class="flex h-16 shrink-0 items-center gap-2 border-b sticky top-0 z-50 bg-background/50 backdrop-blur-md"
+    >
       <div class="flex w-full items-center justify-between px-4 lg:px-6">
         <div class="flex items-center gap-1 lg:gap-2">
+          <button
+            (click)="sidebar.toggleSidebar()"
+            class="inline-flex items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-accent hover:text-foreground -ml-1"
+            title="Toggle Sidebar"
+          >
+            <app-icon name="panel-left" size="16" />
+          </button>
+          <span class="mx-2 h-4 w-px bg-border"></span>
           <app-search-dialog></app-search-dialog>
         </div>
         <div class="flex items-center gap-2">
-          <app-layout-controls></app-layout-controls>
           <app-theme-switcher></app-theme-switcher>
           <app-account-switcher></app-account-switcher>
         </div>

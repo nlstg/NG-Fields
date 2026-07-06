@@ -29,6 +29,17 @@ public class FileService {
         Files.createDirectories(uploadPath);
     }
 
+    public String storeBytes(byte[] data, String extension) {
+        var filename = UUID.randomUUID() + "." + extension;
+        try {
+            var target = uploadPath.resolve(filename);
+            Files.write(target, data);
+            return filename;
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to store bytes", e);
+        }
+    }
+
     public String store(MultipartFile file) {
         var originalName = file.getOriginalFilename();
         var ext = "";

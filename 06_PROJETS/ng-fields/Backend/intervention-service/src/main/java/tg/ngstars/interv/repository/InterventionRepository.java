@@ -19,4 +19,12 @@ public interface InterventionRepository extends JpaRepository<Intervention, UUID
     Page<Intervention> findByActiveTrueOrderByCreatedAtDesc(Pageable pageable);
 
     boolean existsByReference(String reference);
+
+    Optional<Intervention> findByLocalId(String localId);
+
+    Page<Intervention> findByActiveTrueAndStatusOrderByCreatedAtDesc(String status, Pageable pageable);
+
+    Page<Intervention> findByActiveTrueAndAssignedToOrderByCreatedAtDesc(UUID assignedTo, Pageable pageable);
+
+    Page<Intervention> findByActiveTrueAndAssignedToAndStatusOrderByCreatedAtDesc(UUID assignedTo, String status, Pageable pageable);
 }

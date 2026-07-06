@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "NG-Fields API — Auth",
-    "description": "Tests API NG-Fields — Auth, Inscription, Profils, Clients",
+    "name": "NG-Fields API",
+    "description": "Tests API NG-Fields — Auth, Clients, Media",
     "schema": "https://schema.getpostman.com/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -64,26 +64,11 @@
         "body": {
           "mode": "urlencoded",
           "urlencoded": [
-            {
-              "key": "client_id",
-              "value": "ng-fields-backend"
-            },
-            {
-              "key": "client_secret",
-              "value": "{{client_secret}}"
-            },
-            {
-              "key": "username",
-              "value": "client1"
-            },
-            {
-              "key": "password",
-              "value": "Client123!"
-            },
-            {
-              "key": "grant_type",
-              "value": "password"
-            }
+            { "key": "client_id", "value": "{{client_id}}" },
+            { "key": "client_secret", "value": "{{client_secret}}" },
+            { "key": "username", "value": "{{clientPortalUsername}}" },
+            { "key": "password", "value": "{{clientPortalPassword}}" },
+            { "key": "grant_type", "value": "password" }
           ]
         },
         "url": "{{kc_url}}/realms/ng-fields/protocol/openid-connect/token"
@@ -118,26 +103,11 @@
         "body": {
           "mode": "urlencoded",
           "urlencoded": [
-            {
-              "key": "client_id",
-              "value": "ng-fields-backend"
-            },
-            {
-              "key": "client_secret",
-              "value": "{{client_secret}}"
-            },
-            {
-              "key": "username",
-              "value": "tech1"
-            },
-            {
-              "key": "password",
-              "value": "Tech123!"
-            },
-            {
-              "key": "grant_type",
-              "value": "password"
-            }
+            { "key": "client_id", "value": "{{client_id}}" },
+            { "key": "client_secret", "value": "{{client_secret}}" },
+            { "key": "username", "value": "{{technicianUsername}}" },
+            { "key": "password", "value": "{{technicianPassword}}" },
+            { "key": "grant_type", "value": "password" }
           ]
         },
         "url": "{{kc_url}}/realms/ng-fields/protocol/openid-connect/token"
@@ -172,26 +142,11 @@
         "body": {
           "mode": "urlencoded",
           "urlencoded": [
-            {
-              "key": "client_id",
-              "value": "ng-fields-backend"
-            },
-            {
-              "key": "client_secret",
-              "value": "{{client_secret}}"
-            },
-            {
-              "key": "username",
-              "value": "manager1"
-            },
-            {
-              "key": "password",
-              "value": "Mngr123!"
-            },
-            {
-              "key": "grant_type",
-              "value": "password"
-            }
+            { "key": "client_id", "value": "{{client_id}}" },
+            { "key": "client_secret", "value": "{{client_secret}}" },
+            { "key": "username", "value": "{{managerUsername}}" },
+            { "key": "password", "value": "{{managerPassword}}" },
+            { "key": "grant_type", "value": "password" }
           ]
         },
         "url": "{{kc_url}}/realms/ng-fields/protocol/openid-connect/token"
@@ -226,26 +181,11 @@
         "body": {
           "mode": "urlencoded",
           "urlencoded": [
-            {
-              "key": "client_id",
-              "value": "ng-fields-backend"
-            },
-            {
-              "key": "client_secret",
-              "value": "{{client_secret}}"
-            },
-            {
-              "key": "username",
-              "value": "admin"
-            },
-            {
-              "key": "password",
-              "value": "Admin123!"
-            },
-            {
-              "key": "grant_type",
-              "value": "password"
-            }
+            { "key": "client_id", "value": "{{client_id}}" },
+            { "key": "client_secret", "value": "{{client_secret}}" },
+            { "key": "username", "value": "{{adminUsername}}" },
+            { "key": "password", "value": "{{adminPassword}}" },
+            { "key": "grant_type", "value": "password" }
           ]
         },
         "url": "{{kc_url}}/realms/ng-fields/protocol/openid-connect/token"
@@ -282,26 +222,11 @@
         "body": {
           "mode": "urlencoded",
           "urlencoded": [
-            {
-              "key": "client_id",
-              "value": "ng-fields-backend"
-            },
-            {
-              "key": "client_secret",
-              "value": "{{client_secret}}"
-            },
-            {
-              "key": "username",
-              "value": "user_inexistant"
-            },
-            {
-              "key": "password",
-              "value": "mauvais_mdp"
-            },
-            {
-              "key": "grant_type",
-              "value": "password"
-            }
+            { "key": "client_id", "value": "{{client_id}}" },
+            { "key": "client_secret", "value": "{{client_secret}}" },
+            { "key": "username", "value": "user_inexistant" },
+            { "key": "password", "value": "mauvais_mdp" },
+            { "key": "grant_type", "value": "password" }
           ]
         },
         "url": "{{kc_url}}/realms/ng-fields/protocol/openid-connect/token"
@@ -320,10 +245,8 @@
               "",
               "pm.test(\"Compte créé avec succès\", function () {",
               "    var json = pm.response.json();",
-              "    pm.expect(json.message).to.include(\"succès\");",
+              "    pm.expect(json.message).to.include(\"créé\");",
               "    pm.expect(json.user.username).to.eql(\"inscrit_test\");",
-              "    pm.expect(json.user.role).to.eql(\"CLIENT_PORTAL\");",
-              "    pm.expect(json.user.enabled).to.be.true;",
               "});"
             ],
             "type": "text/javascript"
@@ -333,14 +256,11 @@
       "request": {
         "method": "POST",
         "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
+          { "key": "Content-Type", "value": "application/json" }
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"username\": \"inscrit_test\",\n  \"email\": \"inscrit@test.tg\",\n  \"firstName\": \"Inscrit\",\n  \"lastName\": \"Test\",\n  \"password\": \"InscritPass123!\",\n  \"role\": \"CLIENT_PORTAL\"\n}"
+          "raw": "{\n  \"username\": \"inscrit_test\",\n  \"email\": \"inscrit@test.tg\",\n  \"firstName\": \"Inscrit\",\n  \"lastName\": \"Test\",\n  \"phone\": \"+22890000000\",\n  \"password\": \"InscritPass123!\",\n  \"role\": \"CLIENT_PORTAL\"\n}"
         },
         "url": "{{base_url}}/api/public/register"
       }
@@ -368,20 +288,17 @@
       "request": {
         "method": "POST",
         "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
+          { "key": "Content-Type", "value": "application/json" }
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"username\": \"inscrit_test\",\n  \"email\": \"autre@test.tg\",\n  \"firstName\": \"Doublon\",\n  \"lastName\": \"Test\",\n  \"password\": \"InscritPass123!\",\n  \"role\": \"CLIENT_PORTAL\"\n}"
+          "raw": "{\n  \"username\": \"inscrit_test\",\n  \"email\": \"autre@test.tg\",\n  \"firstName\": \"Doublon\",\n  \"lastName\": \"Test\",\n  \"phone\": \"+22890000001\",\n  \"password\": \"InscritPass123!\",\n  \"role\": \"CLIENT_PORTAL\"\n}"
         },
         "url": "{{base_url}}/api/public/register"
       }
     },
     {
-      "name": "9. GET /admin/me (CLIENT_PORTAL)",
+      "name": "9. GET /users/me (CLIENT_PORTAL)",
       "event": [
         {
           "listen": "test",
@@ -391,11 +308,10 @@
               "    pm.response.to.have.status(200);",
               "});",
               "",
-              "pm.test(\"Rôle CLIENT_PORTAL\", function () {",
+              "pm.test(\"Profil récupéré\", function () {",
               "    var json = pm.response.json();",
               "    pm.expect(json.username).to.eql(\"client1\");",
-              "    pm.expect(json.roles).to.include(\"CLIENT_PORTAL\");",
-              "    pm.expect(json.sub).to.not.be.empty;",
+              "    pm.expect(json.id).to.not.be.empty;",
               "});"
             ],
             "type": "text/javascript"
@@ -405,16 +321,13 @@
       "request": {
         "method": "GET",
         "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{userToken}}"
-          }
+          { "key": "Authorization", "value": "Bearer {{userToken}}" }
         ],
-        "url": "{{base_url}}/api/admin/me"
+        "url": "{{base_url}}/api/users/me"
       }
     },
     {
-      "name": "10. GET /admin/me (TECHNICIEN)",
+      "name": "10. PUT /users/me (CLIENT_PORTAL)",
       "event": [
         {
           "listen": "test",
@@ -424,9 +337,9 @@
               "    pm.response.to.have.status(200);",
               "});",
               "",
-              "pm.test(\"Rôle TECHNICIAN\", function () {",
+              "pm.test(\"Profil mis à jour\", function () {",
               "    var json = pm.response.json();",
-              "    pm.expect(json.roles).to.include(\"TECHNICIAN\");",
+              "    pm.expect(json.firstName).to.eql(\"ClientModifié\");",
               "});"
             ],
             "type": "text/javascript"
@@ -434,80 +347,20 @@
         }
       ],
       "request": {
-        "method": "GET",
+        "method": "PUT",
         "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{technicianToken}}"
-          }
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{userToken}}" }
         ],
-        "url": "{{base_url}}/api/admin/me"
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"ClientModifié\",\n  \"lastName\": \"Portal\",\n  \"phone\": \"+22890000001\"\n}"
+        },
+        "url": "{{base_url}}/api/users/me"
       }
     },
     {
-      "name": "11. GET /admin/me (MANAGER)",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"Rôle MANAGER\", function () {",
-              "    var json = pm.response.json();",
-              "    pm.expect(json.roles).to.include(\"MANAGER\");",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{managerToken}}"
-          }
-        ],
-        "url": "{{base_url}}/api/admin/me"
-      }
-    },
-    {
-      "name": "12. GET /admin/me (ADMIN)",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"Rôle ADMIN\", function () {",
-              "    var json = pm.response.json();",
-              "    pm.expect(json.roles).to.include(\"ADMIN\");",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{adminToken}}"
-          }
-        ],
-        "url": "{{base_url}}/api/admin/me"
-      }
-    },
-    {
-      "name": "13. GET /admin/me (non auth — 401 attendu)",
+      "name": "11. GET /users/me (non auth — 401 attendu)",
       "event": [
         {
           "listen": "test",
@@ -523,12 +376,11 @@
       ],
       "request": {
         "method": "GET",
-        "header": [],
-        "url": "{{base_url}}/api/admin/me"
+        "url": "{{base_url}}/api/users/me"
       }
     },
     {
-      "name": "14. Créer un client (ADMIN)",
+      "name": "12. ADMIN: Create user",
       "event": [
         {
           "listen": "test",
@@ -538,15 +390,15 @@
               "    pm.response.to.have.status(201);",
               "});",
               "",
-              "pm.test(\"Client créé\", function () {",
+              "pm.test(\"User créé en Keycloak + DB\", function () {",
               "    var json = pm.response.json();",
-              "    pm.expect(json.companyName).to.eql(\"NG-STARs SARL\");",
-              "    pm.expect(json.active).to.be.true;",
+              "    pm.expect(json.username).to.eql(\"newuser_test\");",
               "    pm.expect(json.id).to.not.be.empty;",
               "});",
               "",
               "var json = pm.response.json();",
-              "pm.collectionVariables.set(\"testClientId\", json.id);"
+              "pm.collectionVariables.set(\"testUserId\", json.id);",
+              "pm.collectionVariables.set(\"testUserKeycloakId\", json.keycloakId);"
             ],
             "type": "text/javascript"
           }
@@ -555,24 +407,18 @@
       "request": {
         "method": "POST",
         "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          },
-          {
-            "key": "Authorization",
-            "value": "Bearer {{adminToken}}"
-          }
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{adminToken}}" }
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"companyName\": \"NG-STARs SARL\",\n  \"email\": \"contact@ngstars.tg\",\n  \"phone\": \"+22890000000\",\n  \"address\": \"Lomé, Togo\",\n  \"contactName\": \"Jean Dupont\",\n  \"contactPhone\": \"+22890000001\"\n}"
+          "raw": "{\n  \"username\": \"newuser_test\",\n  \"email\": \"newuser@test.tg\",\n  \"firstName\": \"New\",\n  \"lastName\": \"User\",\n  \"phone\": \"+22890000000\",\n  \"password\": \"NewUser123!\",\n  \"role\": \"TECHNICIAN\"\n}"
         },
-        "url": "{{base_url}}/api/clients"
+        "url": "{{base_url}}/api/admin/users"
       }
     },
     {
-      "name": "15. Lister les clients",
+      "name": "13. ADMIN: List users",
       "event": [
         {
           "listen": "test",
@@ -582,11 +428,11 @@
               "    pm.response.to.have.status(200);",
               "});",
               "",
-              "pm.test(\"Liste reçue\", function () {",
+              "pm.test(\"Liste non vide\", function () {",
               "    var json = pm.response.json();",
               "    pm.expect(json).to.be.an(\"array\");",
               "    pm.expect(json.length).to.be.at.least(1);",
-              "    pm.expect(json[0]).to.have.property(\"companyName\");",
+              "    pm.expect(json[0]).to.have.property(\"username\");",
               "});"
             ],
             "type": "text/javascript"
@@ -596,16 +442,13 @@
       "request": {
         "method": "GET",
         "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{adminToken}}"
-          }
+          { "key": "Authorization", "value": "Bearer {{adminToken}}" }
         ],
-        "url": "{{base_url}}/api/clients"
+        "url": "{{base_url}}/api/admin/users"
       }
     },
     {
-      "name": "16. Rechercher un client",
+      "name": "14. ADMIN: Get user by ID",
       "event": [
         {
           "listen": "test",
@@ -615,9 +458,9 @@
               "    pm.response.to.have.status(200);",
               "});",
               "",
-              "pm.test(\"Résultat trouvé\", function () {",
+              "pm.test(\"User récupéré\", function () {",
               "    var json = pm.response.json();",
-              "    pm.expect(json).to.be.an(\"array\");",
+              "    pm.expect(json.id).to.eql(pm.collectionVariables.get(\"testUserId\"));",
               "});"
             ],
             "type": "text/javascript"
@@ -627,16 +470,13 @@
       "request": {
         "method": "GET",
         "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{adminToken}}"
-          }
+          { "key": "Authorization", "value": "Bearer {{adminToken}}" }
         ],
-        "url": "{{base_url}}/api/clients/search?q=NG-STARs"
+        "url": "{{base_url}}/api/admin/users/{{testUserId}}"
       }
     },
     {
-      "name": "17. Détail d'un client",
+      "name": "15. ADMIN: Update user",
       "event": [
         {
           "listen": "test",
@@ -646,43 +486,9 @@
               "    pm.response.to.have.status(200);",
               "});",
               "",
-              "pm.test(\"Détail correct\", function () {",
+              "pm.test(\"User modifié\", function () {",
               "    var json = pm.response.json();",
-              "    pm.expect(json.id).to.eql(pm.collectionVariables.get(\"testClientId\"));",
-              "    pm.expect(json.companyName).to.eql(\"NG-STARs SARL\");",
-              "    pm.expect(json.active).to.be.true;",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{adminToken}}"
-          }
-        ],
-        "url": "{{base_url}}/api/clients/{{testClientId}}"
-      }
-    },
-    {
-      "name": "18. Modifier un client (ADMIN)",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "pm.test(\"Client modifié\", function () {",
-              "    var json = pm.response.json();",
-              "    pm.expect(json.companyName).to.eql(\"NG-STARs SARL (modifié)\");",
-              "    pm.expect(json.phone).to.eql(\"+22890000002\");",
+              "    pm.expect(json.firstName).to.eql(\"Updated\");",
               "});"
             ],
             "type": "text/javascript"
@@ -692,24 +498,112 @@
       "request": {
         "method": "PUT",
         "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          },
-          {
-            "key": "Authorization",
-            "value": "Bearer {{adminToken}}"
-          }
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{adminToken}}" }
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"companyName\": \"NG-STARs SARL (modifié)\",\n  \"email\": \"contact@ngstars.tg\",\n  \"phone\": \"+22890000002\",\n  \"address\": \"Lomé, Togo\",\n  \"contactName\": \"Jean Dupont\",\n  \"contactPhone\": \"+22890000001\"\n}"
+          "raw": "{\n  \"username\": \"newuser_test\",\n  \"email\": \"updated@test.tg\",\n  \"firstName\": \"Updated\",\n  \"lastName\": \"User\",\n  \"phone\": \"+22890000001\",\n  \"password\": \"NewUser123!\",\n  \"role\": \"TECHNICIAN\"\n}"
         },
-        "url": "{{base_url}}/api/clients/{{testClientId}}"
+        "url": "{{base_url}}/api/admin/users/{{testUserId}}"
       }
     },
     {
-      "name": "19. Supprimer un client (ADMIN) — 204",
+      "name": "16. ADMIN: Assign role",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Rôle changé en MANAGER\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json.role).to.eql(\"MANAGER\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"role\": \"MANAGER\" }"
+        },
+        "url": "{{base_url}}/api/admin/users/{{testUserKeycloakId}}/roles"
+      }
+    },
+    {
+      "name": "17. ADMIN: Update status (désactiver)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"User désactivé\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json.active).to.be.false;",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"enabled\": false }"
+        },
+        "url": "{{base_url}}/api/admin/users/{{testUserKeycloakId}}/status"
+      }
+    },
+    {
+      "name": "18. ADMIN: Reset password",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Email de reset envoyé\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json.message).to.include(\"envoyé\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+        ],
+        "url": "{{base_url}}/api/admin/users/{{testUserKeycloakId}}/reset-password"
+      }
+    },
+    {
+      "name": "19. ADMIN: Delete user",
       "event": [
         {
           "listen": "test",
@@ -726,16 +620,195 @@
       "request": {
         "method": "DELETE",
         "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{adminToken}}"
+          { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+        ],
+        "url": "{{base_url}}/api/admin/users/{{testUserId}}"
+      }
+    },
+    {
+      "name": "20. Créer un client (ADMIN)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Client créé avec référence\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json.companyName).to.eql(\"NG-STARs SARL\");",
+              "    pm.expect(json.active).to.be.true;",
+              "    pm.expect(json.reference).to.match(/^CLT-/);",
+              "    pm.expect(json.id).to.not.be.empty;",
+              "});",
+              "",
+              "var json = pm.response.json();",
+              "pm.collectionVariables.set(\"testClientId\", json.id);",
+              "pm.collectionVariables.set(\"testClientRef\", json.reference);"
+            ],
+            "type": "text/javascript"
           }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"companyName\": \"NG-STARs SARL\",\n  \"email\": \"contact@ngstars.tg\",\n  \"phone\": \"+22890000000\",\n  \"address\": \"Lomé, Togo\",\n  \"contactName\": \"Jean Dupont\",\n  \"contactPhone\": \"+22890000001\",\n  \"latitude\": 6.1319,\n  \"longitude\": 1.2228\n}"
+        },
+        "url": "{{base_url}}/api/clients"
+      }
+    },
+    {
+      "name": "21. Lister les clients (paginé)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Page reçue\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.have.property(\"content\");",
+              "    pm.expect(json).to.have.property(\"totalElements\");",
+              "    pm.expect(json.content.length).to.be.at.least(1);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+        ],
+        "url": "{{base_url}}/api/clients?page=0&size=20"
+      }
+    },
+    {
+      "name": "22. Rechercher un client",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Résultat trouvé\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json).to.have.property(\"content\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+        ],
+        "url": "{{base_url}}/api/clients/search?q=NG-STARs&page=0&size=20"
+      }
+    },
+    {
+      "name": "23. Détail d'un client",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Détail correct\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json.id).to.eql(pm.collectionVariables.get(\"testClientId\"));",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{adminToken}}" }
         ],
         "url": "{{base_url}}/api/clients/{{testClientId}}"
       }
     },
     {
-      "name": "20. Créer un client (CLIENT_PORTAL — 403 attendu)",
+      "name": "24. Modifier un client (ADMIN)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Client modifié\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json.phone).to.eql(\"+22890000002\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"companyName\": \"NG-STARs SARL\",\n  \"email\": \"contact@ngstars.tg\",\n  \"phone\": \"+22890000002\",\n  \"address\": \"Lomé, Togo\",\n  \"contactName\": \"Jean Dupont\",\n  \"contactPhone\": \"+22890000001\",\n  \"latitude\": 6.1400,\n  \"longitude\": 1.2300\n}"
+        },
+        "url": "{{base_url}}/api/clients/{{testClientId}}"
+      }
+    },
+    {
+      "name": "25. Supprimer (désactiver) un client (ADMIN) — 204",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+        ],
+        "url": "{{base_url}}/api/clients/{{testClientId}}"
+      }
+    },
+    {
+      "name": "26. Créer un client (CLIENT_PORTAL — 403 attendu)",
       "event": [
         {
           "listen": "test",
@@ -752,14 +825,177 @@
       "request": {
         "method": "POST",
         "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          },
-          {
-            "key": "Authorization",
-            "value": "Bearer {{userToken}}"
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{userToken}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"companyName\": \"Test SARL\",\n  \"email\": \"test@test.com\",\n  \"phone\": \"+22890000000\",\n  \"contactName\": \"Test\",\n  \"contactPhone\": \"+22890000001\"\n}"
+        },
+        "url": "{{base_url}}/api/clients"
+      }
+    },
+    {
+      "name": "27. Upload file",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Nom fichier reçu\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json.filename).to.not.be.empty;",
+              "});",
+              "",
+              "var json = pm.response.json();",
+              "pm.collectionVariables.set(\"testFilename\", json.filename);"
+            ],
+            "type": "text/javascript"
           }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": "/C:/temp/test.png"
+            }
+          ]
+        },
+        "url": "{{base_url}}/api/media/upload"
+      }
+    },
+    {
+      "name": "28. Upload base64",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Nom fichier reçu\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json.filename).to.not.be.empty;",
+              "});",
+              "",
+              "var json = pm.response.json();",
+              "pm.collectionVariables.set(\"testFilenameBase64\", json.filename);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"data\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\"\n}"
+        },
+        "url": "{{base_url}}/api/media/upload-base64"
+      }
+    },
+    {
+      "name": "29. Download file",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Content-Type image\", function () {",
+              "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.match(/^image\\//);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/media/{{testFilename}}"
+      }
+    },
+    {
+      "name": "30. Delete file",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "url": "{{base_url}}/api/media/{{testFilename}}"
+      }
+    },
+    {
+      "name": "31. Lister clients (TECHNICIEN — OK)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{technicianToken}}" }
+        ],
+        "url": "{{base_url}}/api/clients?page=0&size=20"
+      }
+    },
+    {
+      "name": "32. Créer client (TECHNICIEN — 403 attendu)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status is 403\", function () {",
+              "    pm.response.to.have.status(403);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{technicianToken}}" }
         ],
         "body": {
           "mode": "raw",
@@ -770,37 +1006,19 @@
     }
   ],
   "variable": [
-    {
-      "key": "base_url",
-      "value": "http://localhost:8081"
-    },
-    {
-      "key": "kc_url",
-      "value": "http://localhost:8080"
-    },
-    {
-      "key": "client_secret",
-      "value": "**********"
-    },
-    {
-      "key": "adminToken",
-      "value": ""
-    },
-    {
-      "key": "managerToken",
-      "value": ""
-    },
-    {
-      "key": "technicianToken",
-      "value": ""
-    },
-    {
-      "key": "userToken",
-      "value": ""
-    },
-    {
-      "key": "testClientId",
-      "value": ""
-    }
+    { "key": "base_url", "value": "http://localhost:8080" },
+    { "key": "kc_url", "value": "http://localhost:8088" },
+    { "key": "client_id", "value": "ng-fields-backend" },
+    { "key": "client_secret", "value": "" },
+    { "key": "adminToken", "value": "" },
+    { "key": "managerToken", "value": "" },
+    { "key": "technicianToken", "value": "" },
+    { "key": "userToken", "value": "" },
+    { "key": "testClientId", "value": "" },
+    { "key": "testClientRef", "value": "" },
+    { "key": "testUserId", "value": "" },
+    { "key": "testUserKeycloakId", "value": "" },
+    { "key": "testFilename", "value": "" },
+    { "key": "testFilenameBase64", "value": "" }
   ]
 }

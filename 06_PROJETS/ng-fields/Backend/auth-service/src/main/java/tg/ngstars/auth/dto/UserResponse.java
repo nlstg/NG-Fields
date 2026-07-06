@@ -6,10 +6,11 @@ import java.util.UUID;
 public record UserResponse(
     UUID id,
     UUID keycloakId,
-    String name,
+    String username,
     String email,
+    String firstName,
+    String lastName,
     String role,
-    String department,
     String phone,
     boolean active,
     OffsetDateTime createdAt,

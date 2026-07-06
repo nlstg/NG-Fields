@@ -1,0 +1,13 @@
+import { Component } from '@angular/core';
+import { SectionCardsComponent } from './components/section-cards.component';
+import { ChartAreaInteractiveComponent } from './components/chart-area-interactive.component';
+import { ProposalSectionsTableComponent } from './components/proposal-sections-table/table.component';
+
+@Component({
+  selector: 'app-overview',
+  standalone: true,
+  imports: [SectionCardsComponent, ChartAreaInteractiveComponent, ProposalSectionsTableComponent],
+  templateUrl: './overview.component.html',
+  styleUrl: './overview.component.css',
+})
+export class OverviewComponent {}

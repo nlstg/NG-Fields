@@ -5,16 +5,14 @@ import java.util.UUID;
 
 public record ClientResponse(
     UUID id,
-    String name,
+    String reference,
+    String companyName,
+    String contactName,
     String email,
     String phone,
     String address,
-    String city,
-    String postalCode,
-    String country,
-    String siret,
-    String notes,
+    Double latitude,
+    Double longitude,
     boolean active,
-    OffsetDateTime createdAt,
-    OffsetDateTime updatedAt
+    OffsetDateTime createdAt
 ) {}

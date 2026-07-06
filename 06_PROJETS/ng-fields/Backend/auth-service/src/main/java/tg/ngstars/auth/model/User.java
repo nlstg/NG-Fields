@@ -9,17 +9,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "users")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Table(name = "users",
+       uniqueConstraints = {
+           @UniqueConstraint(columnNames = "keycloak_id"),
+            @UniqueConstraint(columnNames = "username"),
+            @UniqueConstraint(columnNames = "email")
+       })
 public class User {
 
     @Id
@@ -28,21 +26,24 @@ public class User {
     @Column(name = "keycloak_id", nullable = false, unique = true)
     private UUID keycloakId;
 
-    @Column(nullable = false)
-    private String name;
+    @Column(nullable = false, unique = true, length = 50)
+    private String username;
 
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+
     @Column(nullable = false)
     private String role;
-
-    private String department;
 
     private String phone;
 
     @Column(nullable = false)
-    @Builder.Default
     private Boolean active = true;
 
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -60,7 +61,28 @@ public class User {
     }
 
     @PreUpdate
-    public void preUpdate() {
-        updatedAt = OffsetDateTime.now();
-    }
+    public void preUpdate() { updatedAt = OffsetDateTime.now(); }
+
+    public User() {}
+
+    public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
+    public UUID getKeycloakId() { return keycloakId; }
+    public void setKeycloakId(UUID keycloakId) { this.keycloakId = keycloakId; }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
+    public OffsetDateTime getCreatedAt() { return createdAt; }
+    public OffsetDateTime getUpdatedAt() { return updatedAt; }
 }

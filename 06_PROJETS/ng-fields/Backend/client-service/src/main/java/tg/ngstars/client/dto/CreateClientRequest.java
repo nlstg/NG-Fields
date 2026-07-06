@@ -2,15 +2,14 @@ package tg.ngstars.client.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public record CreateClientRequest(
-    @NotBlank String name,
-    @NotBlank @Email String email,
-    String phone,
+    @NotBlank @Size(max = 200) String companyName,
+    @Size(max = 150) String contactName,
+    @NotBlank @Email @Size(max = 150) String email,
+    @Size(max = 30) String phone,
     String address,
-    String city,
-    String postalCode,
-    String country,
-    String siret,
-    String notes
+    Double latitude,
+    Double longitude
 ) {}

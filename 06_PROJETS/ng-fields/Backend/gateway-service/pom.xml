@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.6</version>
+        <version>4.1.0</version>
         <relativePath/>
     </parent>
     <groupId>tg.ngstars</groupId>
@@ -16,8 +16,8 @@
     <description>API Gateway Service</description>
     <properties>
         <java.version>25</java.version>
-        <spring-cloud.version>2025.1.1</spring-cloud.version>
-        <springdoc.version>2.3.0</springdoc.version>
+        <spring-cloud.version>2025.1.2</spring-cloud.version>
+        <springdoc.version>3.0.3</springdoc.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -33,8 +33,7 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-gateway</artifactId>
-            <version>4.2.1</version>
+            <artifactId>spring-cloud-starter-gateway-server-webflux</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -47,6 +46,14 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-circuitbreaker-reactor-resilience4j</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>

@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.6</version>
+        <version>4.1.0</version>
         <relativePath/>
     </parent>
 
@@ -19,9 +19,9 @@
 
     <properties>
         <java.version>25</java.version>
-        <springdoc.version>2.3.0</springdoc.version>
+        <springdoc.version>3.0.3</springdoc.version>
         <keycloak.version>26.0.9</keycloak.version>
-        <flyway.version>12.9.0</flyway.version>
+        
     </properties>
 
     <dependencies>

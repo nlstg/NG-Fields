@@ -1,6 +1,6 @@
 # Kit de Démarrage — NG-Fields
 
-**Stack :** Spring Boot 4.0.6 / Java 25 + Flutter/Dart + Angular/TypeScript + Keycloak 26.6.2 + Supabase
+**Stack :** Spring Boot 4.1.0 / Java 25, Spring Cloud 2025.1.2, Keycloak 26.0.9, PostgreSQL 18
 
 ---
 
@@ -9,14 +9,10 @@
 | Outil | Version mini | Installation |
 |-------|-------------|--------------|
 | Java | 25 | [Java Download](https://jdk.java.net/25/) |
-| Maven | Wrapper (inclus) | Via `apps/ng-fields-api/mvnw` |
-| Node.js | 20 LTS | [Node.js](https://nodejs.org/) |
-| Angular CLI | 18+ | `npm install -g @angular/cli` |
-| Flutter | 3.x | [Flutter SDK](https://docs.flutter.dev/get-started/install) |
-| Docker (optionnel) | — | Pour Redis local |
-
-> **Problème Docker ?** PostgreSQL est sur Supabase Cloud (pas de Docker nécessaire).
-> Alternatives : installer Redis natif Windows, lancer Keycloak en JAR standalone.
+| Maven | Wrapper (inclus) | Via `Backend/<service>/mvnw` |
+| PostgreSQL | 18 | [PostgreSQL](https://www.postgresql.org/download/) |
+| Redis | 7+ | [Redis Windows](https://github.com/tporadowski/redis/releases) |
+| Keycloak | 26.0.9 | [Keycloak](https://www.keycloak.org/downloads) |
 
 ---
 
@@ -29,72 +25,68 @@ cd ng-fields
 
 ---
 
-## 2. Configuration Supabase
+## 2. Base de données
 
-Créer un projet gratuit sur [https://supabase.com](https://supabase.com).
+Créer la base `ng_fields` et l'utilisateur :
+
+```sql
+CREATE USER ng_fields_user WITH PASSWORD 'Pg_ng-fields1234';
+CREATE DATABASE ng_fields OWNER ng_fields_user;
+```
+
+Les schémas (`auth`, `client`, `intervention`) sont créés automatiquement par Flyway au premier démarrage de chaque service.
+
+---
+
+## 3. Services requis
+
+### Keycloak
 
 ```bash
-cp .env.example .env
-# Éditer .env avec les credentials Supabase
+# Télécharger et extraire Keycloak 26.0.9
+cd keycloak-26.0.9/bin
+./kc.bat start-dev --http-port=8088
 ```
 
-Variables requises dans `.env` :
+Créer le realm `ng-fields` avec les clients OIDC et rôles (ADMIN, MANAGER, TECHNICIAN, CLIENT_PORTAL).
 
-```
-SUPABASE_DB_HOST=db.xxxxxxxxxxxxx.supabase.co
-SUPABASE_DB_USER=postgres
-SUPABASE_DB_PASSWORD=your-password
-SUPABASE_URL=https://xxxxxxxxxxxxx.supabase.co
-SUPABASE_ANON_KEY=eyJhbGci...
-KEYCLOAK_URL=http://localhost:8080
-KEYCLOAK_REALM=ng-fields
-JWT_SECRET=<dev-secret>
+### Redis
+
+```bash
+# Démarrer Redis (Windows natif)
+redis-server.exe
 ```
 
 ---
 
-## 3. Backend (Spring Boot)
+## 4. Backend (5 microservices)
 
-### 3.1 Démarrer les services requis
-
-**Option A — Docker (recommandé si fonctionnel) :**
-```bash
-docker compose -f infra/docker-compose.yml up -d
-```
-
-**Option B — Sans Docker :**
-- **Redis** : Télécharger [Redis pour Windows](https://github.com/microsoftarchive/redis/releases) ou utiliser WSL
-- **Keycloak** : Télécharger [Keycloak 26.6.2](https://www.keycloak.org/downloads), extraire et lancer :
-  ```bash
-  cd apps/keycloak-26.6.2/bin
-  ./kc.bat start-dev
-  ```
-
-### 3.2 Lancer l'API
+Chaque service a son propre `mvnw.cmd` et son `.env`. Démarrer dans l'ordre :
 
 ```bash
-cd apps/ng-fields-api
-./mvnw spring-boot:run
+cd Backend
+
+# 1. Gateway (port 8080) — point d'entrée unique
+cd gateway-service; .\mvnw.cmd spring-boot:run
+
+# 2. Auth (port 8081) — utilisateurs, rôles, Keycloak
+cd auth-service; .\mvnw.cmd spring-boot:run
+
+# 3. Client (port 8082) — gestion clients
+cd client-service; .\mvnw.cmd spring-boot:run
+
+# 4. Intervention (port 8083) — interventions, photos, signatures, PDF
+cd intervention-service; .\mvnw.cmd spring-boot:run
+
+# 5. Media (port 8084) — upload/download fichiers
+cd media-service; .\mvnw.cmd spring-boot:run
 ```
 
-L'API démarre sur `http://localhost:8081`.
-
-### 3.3 Tests
-
-```bash
-./mvnw clean verify
-```
-
-### 3.4 Migrations Flyway
-
-Les migrations s'exécutent automatiquement au démarrage :
-- `V1__init.sql` — schéma initial (tables)
-- `V2__add_indexes.sql` — index de performance
-- `V3__add_gps_fields.sql` — champs GPS (V0.1)
+Tous les appels API passent par le gateway sur `http://localhost:8080`.
 
 ---
 
-## 4. Mobile (Flutter)
+## 5. Mobile (Flutter)
 
 ```bash
 cd apps/mobile
@@ -102,75 +94,37 @@ flutter pub get
 flutter run
 ```
 
-### Dépendances principales
-
-| Package | Usage |
-|---------|-------|
-| flutter_riverpod | State management |
-| go_router | Navigation |
-| dio | HTTP client |
-| drift + sqlite3_flutter_libs | Base locale offline |
-| flutter_secure_storage | Stockage tokens |
-| image_picker | Camera/photos |
-| geolocator | GPS |
-| signature | Signature tactile |
-| firebase_messaging | Notifications push (V1) |
-| connectivity_plus | Détection réseau |
-
----
-
-## 5. Web (Angular)
-
-```bash
-cd apps/web
-npm install
-ng serve
-```
-
-Le dashboard démarre sur `http://localhost:4200`.
-
-### Dépendances principales
-
-| Package | Usage |
-|---------|-------|
-| @angular/material | UI components |
-| angular-auth-oidc-client | Authentification OIDC |
-| chart.js / ngx-charts | Graphiques |
-| @angular/cdk | Drag & drop planning |
-
 ---
 
 ## 6. Structure du projet
 
 ```
 ng-fields/
+├── Backend/
+│   ├── gateway-service/        → Spring Cloud Gateway (WebFlux, port 8080)
+│   ├── auth-service/           → Auth (Spring MVC, port 8081)
+│   ├── client-service/         → Clients CRUD (Spring MVC, port 8082)
+│   ├── intervention-service/   → Interventions (Spring MVC, port 8083)
+│   └── media-service/          → Fichiers (Spring MVC, port 8084)
 ├── apps/
-│   ├── ng-fields-api/          → Backend Spring Boot (Java 25)
-│   │   ├── src/main/java/com/ngstars/
-│   │   ├── pom.xml
-│   │   └── mvnw
-│   ├── mobile/                  → App Flutter (Dart)
-│   └── web/                     → Dashboard Angular (TS)
+│   ├── mobile/                 → App Flutter (Dart)
+│   └── web/                    → Dashboard Angular (TS)
 ├── infra/
-│   ├── docker-compose.yml       → Redis + services
+│   ├── docker-compose.yml
 │   ├── supabase/
-│   │   ├── schema.sql           → Schéma BDD
-│   │   └── seed.sql             → Données de test
+│   │   ├── schema.sql
+│   │   └── seed.sql
 │   └── keycloak/
-│       └── realm-export.json    → Realm exporté
-├── docs/
-│   ├── architecture/
-│   ├── database/
-│   ├── mobile/
-│   ├── integrations/
-│   └── tests/
-├── .github/workflows/
-│   ├── backend.yml              → CI Spring Boot
-│   └── mobile.yml               → CI Flutter
-├── Backlog.md                   → Backlog produit
-├── Technologies.md              → Stack technique
-├── Roadmap.md                   → Planning versions
-└── README.md                    → Présentation projet
+│       └── realm-export.json
+├── doc/
+│   ├── Setup.md                ← vous êtes ici
+│   ├── Technologies.md
+│   ├── docs/
+│   │   ├── backlog-api-v2/     → Guides API
+│   │   ├── database/           → Modèle de données
+│   │   └── tests/              → Postman
+│   └── ...
+└── .github/workflows/
 ```
 
 ---
@@ -178,23 +132,17 @@ ng-fields/
 ## 7. Commandes utiles
 
 ```bash
-# Backend
-cd apps/ng-fields-api && ./mvnw spring-boot:run    # Lancer
-cd apps/ng-fields-api && ./mvnw clean verify        # Tester
+# Backend (chaque service)
+cd Backend/<service> && .\mvnw.cmd compile          # Compiler
+cd Backend/<service> && .\mvnw.cmd spring-boot:run  # Lancer
 
 # Mobile
 cd apps/mobile && flutter pub get                   # Dépendances
 cd apps/mobile && flutter run                       # Lancer
-cd apps/mobile && flutter test                      # Tests
-cd apps/mobile && flutter build apk                 # APK Android
 
 # Web
-cd apps/web && npm install                           # Dépendances
-cd apps/web && ng serve                              # Lancer
-cd apps/web && ng build --prod                       # Build production
-
-# Infra
-docker compose -f infra/docker-compose.yml up -d    # Démarrer services
+cd apps/web && npm install                          # Dépendances
+cd apps/web && ng serve                             # Lancer
 ```
 
 ---
@@ -202,13 +150,28 @@ docker compose -f infra/docker-compose.yml up -d    # Démarrer services
 ## 8. Documentation API
 
 ```bash
-# Swagger UI
-http://localhost:8081/swagger-ui.html
+# Swagger UI (via gateway)
+http://localhost:8080/swagger-ui.html
 
-# Spécification OpenAPI JSON
-http://localhost:8081/v3/api-docs
+# Spécifications OpenAPI par service
+http://localhost:8080/api/clients/v3/api-docs
+http://localhost:8080/api/interventions/v3/api-docs
+http://localhost:8080/api/media/v3/api-docs
 ```
 
 ---
 
-_Version 2.0 — 03/06/2026_
+## 9. Postman
+
+La collection de test se trouve dans `doc/docs/tests/` :
+
+```bash
+postman-collection.json    # 32 requêtes couvrant auth, clients, media
+postman-environment.json   # Variables d'environnement (base_url, kc_url, credentials)
+```
+
+Importer les deux fichiers dans Postman. Les tokens sont récupérés automatiquement par les requêtes Login.
+
+---
+
+_Version 3.0 — 03/07/2026_

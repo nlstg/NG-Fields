@@ -9,13 +9,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "clients")
+@Table(name = "clients",
+       uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,33 +27,34 @@ public class Client {
     @Id
     private UUID id;
 
-    @Column(nullable = false)
-    private String name;
+    @Column(nullable = false, unique = true, length = 20)
+    private String reference;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "company_name", nullable = false, length = 200)
+    private String companyName;
+
+    @Column(name = "contact_name", length = 150)
+    private String contactName;
+
+    @Column(nullable = false, unique = true, length = 150)
     private String email;
 
+    @Column(length = 30)
     private String phone;
 
+    @Column(columnDefinition = "TEXT")
     private String address;
 
-    private String city;
+    private Double latitude;
 
-    @Column(name = "postal_code")
-    private String postalCode;
-
-    @Column(nullable = false)
-    @Builder.Default
-    private String country = "France";
-
-    @Column(length = 14, unique = true)
-    private String siret;
-
-    private String notes;
+    private Double longitude;
 
     @Column(nullable = false)
     @Builder.Default
     private Boolean active = true;
+
+    @Column(name = "created_by", length = 100)
+    private String createdBy;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
@@ -68,7 +71,5 @@ public class Client {
     }
 
     @PreUpdate
-    public void preUpdate() {
-        updatedAt = OffsetDateTime.now();
-    }
+    public void preUpdate() { updatedAt = OffsetDateTime.now(); }
 }

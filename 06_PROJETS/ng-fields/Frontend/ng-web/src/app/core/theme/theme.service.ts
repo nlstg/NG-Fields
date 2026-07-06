@@ -2,7 +2,7 @@ import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
-export type ThemePreset = 'default' | 'brutalist' | 'soft-pop' | 'tangerine';
+export type ThemePreset = 'default';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
@@ -19,8 +19,8 @@ export class ThemeService {
   }
 
   private initFromCookies(): void {
-    const mode = this.readCookie('ng-fields-theme_mode') as ThemeMode | null;
-    const preset = this.readCookie('ng-fields-theme_preset') as ThemePreset | null;
+    const mode = this.readCookie('ng-stars-theme_mode') as ThemeMode | null;
+    const preset = this.readCookie('ng-stars-theme_preset') as ThemePreset | null;
     if (mode) this.setThemeMode(mode);
     if (preset) this.setThemePreset(preset);
   }
@@ -48,13 +48,13 @@ export class ThemeService {
       this.renderer.removeClass(root, 'dark');
     }
     root.style.colorScheme = resolved === 'dark' ? 'dark' : 'light';
-    this.writeCookie('ng-fields-theme_mode', mode);
+    this.writeCookie('ng-stars-theme_mode', mode);
   }
 
   setThemePreset(preset: ThemePreset): void {
     this.themePreset.next(preset);
     this.renderer.setAttribute(document.documentElement, 'data-theme-preset', preset);
-    this.writeCookie('ng-fields-theme_preset', preset);
+    this.writeCookie('ng-stars-theme_preset', preset);
   }
 
   cycleTheme(): void {

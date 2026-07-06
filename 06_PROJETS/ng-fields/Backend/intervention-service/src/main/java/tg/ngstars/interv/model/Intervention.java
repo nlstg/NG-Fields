@@ -60,10 +60,22 @@ public class Intervention {
     @Column(name = "equipment_serial")
     private String equipmentSerial;
 
+    @Column(name = "equipment_location")
+    private String equipmentLocation;
+
     @Column(name = "reported_issue")
     private String reportedIssue;
 
+    @Column(name = "openproject_ticket_id")
+    private String openprojectTicketId;
+
+    @Column(name = "openproject_ticket_url")
+    private String openprojectTicketUrl;
+
     private String diagnosis;
+
+    @Column(name = "work_done")
+    private String workDone;
 
     @Column(nullable = false)
     @Builder.Default
@@ -96,8 +108,45 @@ public class Intervention {
     @Column(name = "technician_signature")
     private String technicianSignature;
 
+    @Column(name = "manager_signature")
+    private String managerSignature;
+
     @Column(name = "signed_at")
     private OffsetDateTime signedAt;
+
+    @Column(name = "departure_time")
+    private OffsetDateTime departureTime;
+
+    @Column(name = "arrival_time")
+    private OffsetDateTime arrivalTime;
+
+    @Column(name = "start_time")
+    private OffsetDateTime startTime;
+
+    @Column(name = "end_time")
+    private OffsetDateTime endTime;
+
+    @Column(name = "duration_minutes")
+    private Integer durationMinutes;
+
+    @Column(length = 20)
+    private String result;
+
+    @Column(columnDefinition = "TEXT")
+    private String recommendations;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private Boolean billable = true;
+
+    @Column(name = "billing_amount")
+    private BigDecimal billingAmount;
+
+    @Column(name = "billing_notes")
+    private String billingNotes;
+
+    @Column(name = "local_id", unique = true)
+    private String localId;
 
     private String notes;
 

@@ -20,14 +20,13 @@ public class AuditService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void log(UUID userId, String action, String resource, String resourceId, String details, String ipAddress) {
-        var log = AuditLog.builder()
-                .userId(userId)
-                .action(action)
-                .resource(resource)
-                .resourceId(resourceId)
-                .details(details)
-                .ipAddress(ipAddress)
-                .build();
+        var log = new AuditLog();
+        log.setUserId(userId);
+        log.setAction(action);
+        log.setResource(resource);
+        log.setResourceId(resourceId);
+        log.setDetails(details);
+        log.setIpAddress(ipAddress);
         auditLogRepository.save(log);
     }
 }

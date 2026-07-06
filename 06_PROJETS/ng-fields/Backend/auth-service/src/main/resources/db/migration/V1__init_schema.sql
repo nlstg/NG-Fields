@@ -1,11 +1,12 @@
 CREATE TABLE IF NOT EXISTS users (
     id UUID PRIMARY KEY,
     keycloak_id UUID NOT NULL UNIQUE,
-    name VARCHAR(255) NOT NULL,
+    username VARCHAR(50) NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL UNIQUE,
-    role VARCHAR(255) NOT NULL,
-    department VARCHAR(255),
-    phone VARCHAR(255),
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    role VARCHAR(50) NOT NULL,
+    phone VARCHAR(50),
     active BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL
@@ -14,10 +15,10 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS audit_logs (
     id UUID PRIMARY KEY,
     user_id UUID,
-    action VARCHAR(255) NOT NULL,
-    resource VARCHAR(255),
-    resource_id VARCHAR(255),
+    action VARCHAR(100) NOT NULL,
+    resource VARCHAR(100),
+    resource_id VARCHAR(100),
     details TEXT,
-    ip_address VARCHAR(255),
+    ip_address VARCHAR(50),
     created_at TIMESTAMP WITH TIME ZONE NOT NULL
 );

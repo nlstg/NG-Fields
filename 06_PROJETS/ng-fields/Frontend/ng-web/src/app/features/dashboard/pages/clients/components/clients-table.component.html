@@ -1,0 +1,132 @@
+<div class="rounded-lg border bg-card">
+  <div class="flex flex-col gap-4 p-4 border-b md:flex-row md:items-center md:justify-between">
+    <div>
+      <h2 class="text-sm font-medium">Liste des clients</h2>
+    </div>
+    <div class="flex flex-col gap-2 md:flex-row md:items-center">
+      <select [(ngModel)]="filterStatus" (ngModelChange)="currentPage.set(1)" class="rounded border bg-background px-2 py-1 text-xs">
+        <option value="">Tous les statuts</option>
+        <option value="ACTIVE">Actifs</option>
+        <option value="INACTIVE">Inactifs</option>
+        <option value="SUSPENDED">Suspendus</option>
+      </select>
+
+      <span class="text-xs text-muted-foreground">Colonnes :</span>
+      <div class="flex flex-wrap gap-1">
+        @for (col of allColumns; track col.key) {
+          <label class="flex items-center gap-1 text-xs cursor-pointer">
+            <input type="checkbox" [checked]="isColumnVisible(col.key)" (change)="toggleColumn(col.key)" class="size-3" />
+            {{ col.label }}
+          </label>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="border-b bg-muted/50">
+          <th class="w-10 px-3 py-2 text-left">
+            <input type="checkbox" [checked]="isAllSelected()" (change)="toggleAllRows($event)" class="size-4" />
+          </th>
+          @for (col of allColumns; track col.key) {
+            @if (isColumnVisible(col.key)) {
+              <th (click)="sortBy(col.key)" class="px-3 py-2 text-left font-medium text-muted-foreground cursor-pointer hover:text-foreground select-none">
+                <div class="flex items-center gap-1">
+                  {{ col.label }}
+                  @if (sortColumn() === col.key) {
+                    <svg class="size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      @if (sortDirection() === 'asc') {
+                        <path d="m18 15-6-6-6 6"/>
+                      } @else {
+                        <path d="m6 9 6 6 6-6"/>
+                      }
+                    </svg>
+                  }
+                </div>
+              </th>
+            }
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (client of paginatedData(); track client.id) {
+          <tr class="border-b hover:bg-muted/50 transition-colors cursor-pointer" (click)="onClientClick.emit(client.id)" [class.bg-muted/30]="isSelected(client.id)">
+            <td class="w-10 px-3 py-2" (click)="$event.stopPropagation()">
+              <input type="checkbox" [checked]="isSelected(client.id)" (change)="toggleRow(client.id)" class="size-4" />
+            </td>
+            @if (isColumnVisible('name')) {
+              <td class="px-3 py-2 font-medium">{{ client.name }}</td>
+            }
+            @if (isColumnVisible('type')) {
+              <td class="px-3 py-2 text-sm">{{ client.type }}</td>
+            }
+            @if (isColumnVisible('status')) {
+              <td class="px-3 py-2">
+                <span class="inline-block rounded-full px-2 py-0.5 text-xs font-medium {{ statusBadgeClass(client.status) }}">
+                  {{ statusLabel(client.status) }}
+                </span>
+              </td>
+            }
+            @if (isColumnVisible('contact')) {
+              <td class="px-3 py-2 text-sm">{{ client.contact.name }}</td>
+            }
+            @if (isColumnVisible('email')) {
+              <td class="px-3 py-2 text-xs text-muted-foreground">{{ client.email }}</td>
+            }
+            @if (isColumnVisible('phone')) {
+              <td class="px-3 py-2 text-xs text-muted-foreground">{{ client.phone }}</td>
+            }
+            @if (isColumnVisible('city')) {
+              <td class="px-3 py-2 text-sm">{{ client.city }}</td>
+            }
+            @if (isColumnVisible('createdAt')) {
+              <td class="px-3 py-2 text-xs text-muted-foreground">{{ formatDate(client.createdAt) }}</td>
+            }
+            @if (isColumnVisible('lastInterventionAt')) {
+              <td class="px-3 py-2 text-xs text-muted-foreground">{{ formatDate(client.lastInterventionAt) }}</td>
+            }
+            @if (isColumnVisible('interventions')) {
+              <td class="px-3 py-2 text-sm">
+                <div class="flex gap-1">
+                  <span class="rounded-full px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-medium dark:bg-blue-900/30 dark:text-blue-400">
+                    {{ client.interventions.total }}
+                  </span>
+                  <span class="text-xs text-muted-foreground">({{ client.interventions.resolved }} résolues)</span>
+                </div>
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="flex items-center justify-between border-t p-4">
+    <div class="flex items-center gap-2 text-sm text-muted-foreground">
+      <span>Lignes par page :</span>
+      <select [ngModel]="pageSize()" (ngModelChange)="setPageSize($event)" class="rounded border bg-background px-2 py-1 text-sm">
+        @for (opt of pageSizeOptions; track opt) {
+          <option [value]="opt">{{ opt }}</option>
+        }
+      </select>
+      <span>{{ pageInfo }}</span>
+    </div>
+    <div class="flex items-center gap-1">
+      <button (click)="goToPage(1)" [disabled]="currentPage() === 1" class="rounded p-1 text-muted-foreground hover:text-foreground disabled:opacity-30" title="Première page">
+        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="11 17 6 12 11 7"/><polyline points="18 17 13 12 18 7"/></svg>
+      </button>
+      <button (click)="goToPage(currentPage() - 1)" [disabled]="currentPage() === 1" class="rounded p-1 text-muted-foreground hover:text-foreground disabled:opacity-30" title="Précédent">
+        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <span class="px-2 text-sm text-muted-foreground">{{ currentPage() }} / {{ totalPages() }}</span>
+      <button (click)="goToPage(currentPage() + 1)" [disabled]="currentPage() === totalPages()" class="rounded p-1 text-muted-foreground hover:text-foreground disabled:opacity-30" title="Suivant">
+        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <button (click)="goToPage(totalPages())" [disabled]="currentPage() === totalPages()" class="rounded p-1 text-muted-foreground hover:text-foreground disabled:opacity-30" title="Dernière page">
+        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+      </button>
+    </div>
+  </div>
+</div>

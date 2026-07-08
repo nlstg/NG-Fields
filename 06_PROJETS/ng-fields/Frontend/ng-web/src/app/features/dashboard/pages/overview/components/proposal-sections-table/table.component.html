@@ -1,103 +1,302 @@
-<div class="rounded-lg border bg-card">
-  <div class="flex items-center justify-between p-4 border-b">
-    <div class="text-sm font-medium">Proposal Sections</div>
-    <div class="flex items-center gap-2">
-      <span class="text-xs text-muted-foreground">Columns:</span>
-      @for (col of allColumns; track col.key) {
-        <label class="flex items-center gap-1 text-xs cursor-pointer">
-          <input type="checkbox" [checked]="isColumnVisible(col.key)" (change)="toggleColumn(col.key)" class="size-3" />
-          {{ col.label }}
-        </label>
-      }
-    </div>
-  </div>
-
-  <div class="overflow-x-auto">
-    <table class="w-full text-sm">
-      <thead>
-        <tr class="border-b bg-muted/50">
-          <th class="w-10 px-3 py-2 text-left">
-            <input type="checkbox" [checked]="isAllSelected()" (change)="toggleAllRows($event)" class="size-4" />
-          </th>
-          @for (col of allColumns; track col.key) {
-            @if (isColumnVisible(col.key)) {
-              <th (click)="sortBy(col.key)" class="px-3 py-2 text-left font-medium text-muted-foreground cursor-pointer hover:text-foreground select-none">
-                <div class="flex items-center gap-1">
-                  {{ col.label }}
-                  @if (sortColumn() === col.key) {
-                    <svg class="size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      @if (sortDirection() === 'asc') {
-                        <path d="m18 15-6-6-6 6"/>
-                      } @else {
-                        <path d="m6 9 6 6 6-6"/>
-                      }
-                    </svg>
-                  }
-                </div>
-              </th>
-            }
-          }
-        </tr>
-      </thead>
-      <tbody>
-        @for (row of paginatedData(); track row.id) {
-          <tr class="border-b hover:bg-muted/50 transition-colors" [class.bg-muted/30]="isSelected(row.id)">
-            <td class="w-10 px-3 py-2">
-              <input type="checkbox" [checked]="isSelected(row.id)" (change)="toggleRow(row.id)" class="size-4" />
-            </td>
-            @if (isColumnVisible('id')) {
-              <td class="px-3 py-2 text-muted-foreground">{{ row.id }}</td>
-            }
-            @if (isColumnVisible('header')) {
-              <td class="px-3 py-2 font-medium">{{ row.header }}</td>
-            }
-            @if (isColumnVisible('type')) {
-              <td class="px-3 py-2">{{ row.type }}</td>
-            }
-            @if (isColumnVisible('status')) {
-              <td class="px-3 py-2">
-                <span class="inline-block rounded-full px-2 py-0.5 text-xs font-medium {{ statusClass(row.status) }}">{{ row.status }}</span>
-              </td>
-            }
-            @if (isColumnVisible('target')) {
-              <td class="px-3 py-2 text-muted-foreground">{{ row.target }}</td>
-            }
-            @if (isColumnVisible('limit')) {
-              <td class="px-3 py-2 text-muted-foreground">{{ row.limit }}</td>
-            }
-            @if (isColumnVisible('reviewer')) {
-              <td class="px-3 py-2">{{ row.reviewer }}</td>
-            }
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-
-  <div class="flex items-center justify-between border-t p-4">
-    <div class="flex items-center gap-2 text-sm text-muted-foreground">
-      <span>Rows per page:</span>
-      <select [ngModel]="pageSize()" (ngModelChange)="setPageSize($event)" class="rounded border bg-background px-2 py-1 text-sm">
-        @for (opt of pageSizeOptions; track opt) {
-          <option [value]="opt">{{ opt }}</option>
+<div class="w-full flex flex-col gap-6">
+  <div class="flex items-center justify-between">
+    <div class="flex @4xl/main:hidden">
+      <select (change)="switchTab($any($any($event).target).value)" class="rounded-md border bg-background px-3 py-1.5 text-sm font-medium">
+        @for (tab of tabs; track tab.id) {
+          <option [value]="tab.id" [selected]="activeTab() === tab.id">{{ tab.label }}{{ tab.badge != null ? ' (' + tab.badge + ')' : '' }}</option>
         }
       </select>
-      <span>{{ pageInfo }}</span>
     </div>
-    <div class="flex items-center gap-1">
-      <button (click)="goToPage(1)" [disabled]="currentPage() === 1" class="rounded p-1 text-muted-foreground hover:text-foreground disabled:opacity-30" title="First">
-        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="11 17 6 12 11 7"/><polyline points="18 17 13 12 18 7"/></svg>
-      </button>
-      <button (click)="goToPage(currentPage() - 1)" [disabled]="currentPage() === 1" class="rounded p-1 text-muted-foreground hover:text-foreground disabled:opacity-30" title="Previous">
-        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <span class="px-2 text-sm text-muted-foreground">{{ currentPage() }} / {{ totalPages() }}</span>
-      <button (click)="goToPage(currentPage() + 1)" [disabled]="currentPage() === totalPages()" class="rounded p-1 text-muted-foreground hover:text-foreground disabled:opacity-30" title="Next">
-        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-      </button>
-      <button (click)="goToPage(totalPages())" [disabled]="currentPage() === totalPages()" class="rounded p-1 text-muted-foreground hover:text-foreground disabled:opacity-30" title="Last">
-        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+    <div class="@4xl/main:flex hidden">
+      <div class="inline-flex items-center rounded-md border bg-muted p-0.5">
+        @for (tab of tabs; track tab.id) {
+          <button (click)="switchTab(tab.id)"
+            class="inline-flex items-center gap-1.5 rounded-sm px-3 py-1.5 text-sm font-medium transition-colors"
+            [class.bg-background]="activeTab() === tab.id"
+            [class.text-foreground]="activeTab() === tab.id"
+            [class.text-muted-foreground]="activeTab() !== tab.id"
+            [class.shadow-xs]="activeTab() === tab.id"
+          >
+            {{ tab.label }}
+            @if (tab.badge != null) {
+              <span class="inline-flex items-center justify-center size-5 rounded-full bg-muted-foreground/20 text-xs font-medium">{{ tab.badge }}</span>
+            }
+          </button>
+        }
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <div class="relative">
+        <button (click)="toggleColumnDropdown(); $event.stopPropagation()" class="inline-flex items-center gap-1.5 rounded-md border bg-background px-3 py-1.5 text-sm font-medium hover:bg-accent">
+          <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Colonnes
+          <svg class="size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        @if (columnDropdownOpen()) {
+          <div class="absolute right-0 top-full mt-1 z-50 w-40 rounded-md border bg-popover p-1 shadow-md">
+            <div class="px-2 py-1.5 text-xs font-medium text-muted-foreground">Colonnes</div>
+            @for (col of allColumns; track col.key) {
+              <label class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-sm hover:bg-accent cursor-pointer">
+                <input type="checkbox" [checked]="isColumnVisible(col.key)" (change)="toggleColumn(col.key)" class="size-3.5" />
+                {{ col.label }}
+              </label>
+            }
+          </div>
+        }
+      </div>
+      <button class="inline-flex items-center gap-1.5 rounded-md border bg-background px-3 py-1.5 text-sm font-medium hover:bg-accent">
+        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <span class="hidden lg:inline">Ajouter</span>
       </button>
     </div>
   </div>
+
+  @if (activeTab() === 'all') {
+    <div class="relative flex flex-col gap-4 overflow-auto">
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="relative flex-1 min-w-[200px]">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input (input)="setSearchQuery($any($event).target.value)" placeholder="Rechercher..." class="w-full rounded-md border bg-background pl-9 pr-3 py-1.5 text-sm" />
+        </div>
+        <select (change)="setDateFilter($any($event).target.value)" class="rounded-md border bg-background px-3 py-1.5 text-sm">
+          <option value="all">Toutes les dates</option>
+          <option value="30">30 derniers jours</option>
+          <option value="90">90 derniers jours</option>
+        </select>
+        <select (change)="setSortOption($any($event).target.value)" class="rounded-md border bg-background px-3 py-1.5 text-sm">
+          <option value="newest">Plus récentes</option>
+          <option value="oldest">Plus anciennes</option>
+          <option value="client-asc">Client A-Z</option>
+          <option value="client-desc">Client Z-A</option>
+        </select>
+        <button class="inline-flex items-center gap-1.5 rounded-md border bg-background px-3 py-1.5 text-sm font-medium hover:bg-accent">
+          <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export
+        </button>
+      </div>
+      <div class="overflow-hidden rounded-lg border">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b bg-muted sticky top-0 z-10">
+              <th class="w-10 px-3 py-2 text-left">
+                <input type="checkbox" [checked]="isAllSelected()" (change)="toggleAllRows($event)" class="size-4" />
+              </th>
+              @for (col of allColumns; track col.key) {
+                @if (isColumnVisible(col.key) || col.key === 'client' || col.key === 'id') {
+                  <th (click)="sortBy(col.key)" class="px-3 py-2 text-left font-medium text-muted-foreground cursor-pointer hover:text-foreground select-none">
+                    <div class="flex items-center gap-1">
+                      {{ col.label }}
+                      @if (sortColumn() === col.key) {
+                        <svg class="size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          @if (sortDirection() === 'asc') {
+                            <path d="m18 15-6-6-6 6"/>
+                          } @else {
+                            <path d="m6 9 6 6 6-6"/>
+                          }
+                        </svg>
+                      }
+                    </div>
+                  </th>
+                }
+              }
+              <th class="w-16 px-3 py-2"></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of paginatedData(); track row.id) {
+              <tr
+                class="border-b hover:bg-muted/50 transition-colors relative z-0"
+                [class.bg-muted/30]="isSelected(row.id)"
+                [class.!z-10]="openDropdownId() === row.id"
+              >
+                <td class="w-10 px-3 py-2">
+                  <input type="checkbox" [checked]="isSelected(row.id)" (change)="toggleRow(row.id)" class="size-4" />
+                </td>
+                <td class="px-3 py-2 text-muted-foreground">
+                  <a [routerLink]="['/dashboard/interventions', row.id]" class="hover:text-foreground hover:underline">#{{ row.id }}</a>
+                </td>
+                <td class="px-3 py-2 font-medium">
+                  <button (click)="openDrawer(row)" class="text-left hover:underline w-fit">{{ row.client }}</button>
+                </td>
+                @if (isColumnVisible('type')) {
+                  <td class="px-3 py-2">
+                    <span class="inline-block rounded-md border px-1.5 py-0.5 text-xs text-muted-foreground">{{ row.type }}</span>
+                  </td>
+                }
+                @if (isColumnVisible('status')) {
+                  <td class="px-3 py-2">
+                    <span class="inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-xs text-muted-foreground">
+                      @if (row.status === 'Complété') {
+                        <svg class="size-3 fill-green-500 stroke-primary-foreground dark:fill-green-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="2"/></svg>
+                      } @else {
+                        <svg class="size-3 text-muted-foreground" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+                      }
+                      {{ row.status }}
+                    </span>
+                  </td>
+                }
+                @if (isColumnVisible('zone')) {
+                  <td class="px-3 py-2 text-muted-foreground">{{ row.zone }}</td>
+                }
+                @if (isColumnVisible('assignedTo')) {
+                  <td class="px-3 py-2">{{ row.assignedTo }}</td>
+                }
+                @if (isColumnVisible('date')) {
+                  <td class="px-3 py-2 text-muted-foreground">{{ row.date }}</td>
+                }
+                @if (isColumnVisible('priority')) {
+                  <td class="px-3 py-2">
+                    <span [class]="priorityClass(row.priority)">{{ row.priority }}</span>
+                  </td>
+                }
+                <td class="w-16 px-3 py-2 relative">
+                  <button (click)="toggleDropdown(row.id); $event.stopPropagation()" class="flex size-8 items-center justify-center rounded-md text-muted-foreground hover:bg-muted data-[state=open]:bg-muted">
+                    <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                  </button>
+                  @if (openDropdownId() === row.id) {
+                    <div class="absolute right-0 top-full mt-1 z-50 w-32 rounded-md border bg-popover p-1 shadow-md">
+                      <button class="w-full text-left px-2 py-1.5 text-sm rounded-sm hover:bg-accent">Modifier</button>
+                      <button class="w-full text-left px-2 py-1.5 text-sm rounded-sm hover:bg-accent">Dupliquer</button>
+                      <button class="w-full text-left px-2 py-1.5 text-sm rounded-sm hover:bg-accent">Favoris</button>
+                      <div class="h-px bg-border my-1"></div>
+                      <button class="w-full text-left px-2 py-1.5 text-sm rounded-sm hover:bg-accent text-destructive">Supprimer</button>
+                    </div>
+                  }
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td [colSpan]="allColumns.length + 2" class="h-24 text-center text-muted-foreground">Aucun résultat.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="flex items-center justify-between px-4">
+        <div class="hidden flex-1 text-muted-foreground text-sm lg:flex">
+          {{ selectedCount() }} sur {{ totalFilteredCount() }} ligne(s) sélectionnée(s).
+        </div>
+        <div class="flex w-full items-center gap-8 lg:w-fit">
+          <div class="hidden items-center gap-2 lg:flex">
+            <span class="font-medium text-sm">Lignes par page</span>
+            <select [ngModel]="pageSize()" (ngModelChange)="setPageSize($event)" class="rounded border bg-background px-2 py-1 text-sm w-20">
+              @for (opt of pageSizeOptions; track opt) {
+                <option [value]="opt">{{ opt }}</option>
+              }
+            </select>
+          </div>
+          <div class="flex w-fit items-center justify-center font-medium text-sm">
+            Page {{ currentPage() }} sur {{ totalPages() }}
+          </div>
+          <div class="ml-auto flex items-center gap-2 lg:ml-0">
+            <button (click)="goToPage(1)" [disabled]="currentPage() === 1" class="hidden lg:flex size-8 items-center justify-center rounded-md border hover:bg-accent disabled:opacity-30" title="Première page">
+              <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="11 17 6 12 11 7"/><polyline points="18 17 13 12 18 7"/></svg>
+            </button>
+            <button (click)="goToPage(currentPage() - 1)" [disabled]="currentPage() === 1" class="size-8 flex items-center justify-center rounded-md border hover:bg-accent disabled:opacity-30" title="Page précédente">
+              <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button (click)="goToPage(currentPage() + 1)" [disabled]="currentPage() === totalPages()" class="size-8 flex items-center justify-center rounded-md border hover:bg-accent disabled:opacity-30" title="Page suivante">
+              <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <button (click)="goToPage(totalPages())" [disabled]="currentPage() === totalPages()" class="hidden lg:flex size-8 items-center justify-center rounded-md border hover:bg-accent disabled:opacity-30" title="Dernière page">
+              <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="aspect-video w-full flex-1 rounded-lg border border-dashed"></div>
+  }
 </div>
+
+@if (drawerOpen()) {
+  <div class="fixed inset-0 z-50 flex justify-end">
+    <div class="absolute inset-0 bg-black/30" (click)="closeDrawer()"></div>
+    <div class="relative w-full max-w-lg bg-background border-l shadow-lg overflow-y-auto animate-slide-in-right">
+      <div class="flex flex-col gap-4 p-6">
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-semibold">{{ selectedRow()?.client }}</h2>
+          <button (click)="closeDrawer()" class="size-8 flex items-center justify-center rounded-md hover:bg-accent">
+            <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+        <div class="text-sm text-muted-foreground">Détails de l'intervention</div>
+      </div>
+      <div class="px-6">
+        <canvas #drawerChartCanvas class="w-full" style="height: 100px;"></canvas>
+        <div role="separator" class="my-4 border-t border-border"></div>
+        <div class="flex items-center gap-2 text-sm mb-4">
+          <svg class="size-4 text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 14V2"/><path d="M9 18.12 12 21l7-7"/><path d="M17 14H7l-4-4"/></svg>
+          <span class="text-muted-foreground">En hausse de <strong class="font-medium text-foreground">5.2%</strong> ce mois</span>
+        </div>
+        <div role="separator" class="mb-4 border-t border-border"></div>
+      </div>
+      <form class="flex flex-col gap-4 px-6 pb-6">
+        <div class="flex flex-col gap-3">
+          <label class="text-sm font-medium">Client</label>
+          <input [ngModel]="selectedRow()!.client" (ngModelChange)="updateDrawerField('client', $event)" name="client" class="rounded-md border bg-background px-3 py-2 text-sm" />
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="flex flex-col gap-3">
+            <label class="text-sm font-medium">Type</label>
+            <select [ngModel]="selectedRow()!.type" (ngModelChange)="updateDrawerField('type', $event)" name="type" class="rounded-md border bg-background px-3 py-2 text-sm">
+              <option value="Audit">Audit</option>
+              <option value="Installation">Installation</option>
+              <option value="Maintenance">Maintenance</option>
+              <option value="Formation">Formation</option>
+              <option value="Réparation">Réparation</option>
+              <option value="Inspection">Inspection</option>
+              <option value="Mise à niveau">Mise à niveau</option>
+              <option value="Diagnostic">Diagnostic</option>
+            </select>
+          </div>
+          <div class="flex flex-col gap-3">
+            <label class="text-sm font-medium">Statut</label>
+            <select [ngModel]="selectedRow()!.status" (ngModelChange)="updateDrawerField('status', $event)" name="status" class="rounded-md border bg-background px-3 py-2 text-sm">
+              <option value="Complété">Complété</option>
+              <option value="En Cours">En Cours</option>
+              <option value="Planifié">Planifié</option>
+              <option value="Annulé">Annulé</option>
+              <option value="Brouillon">Brouillon</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="flex flex-col gap-3">
+            <label class="text-sm font-medium">Zone</label>
+            <select [ngModel]="selectedRow()!.zone" (ngModelChange)="updateDrawerField('zone', $event)" name="zone" class="rounded-md border bg-background px-3 py-2 text-sm">
+              <option value="Lomé">Lomé</option>
+              <option value="Maritime">Maritime</option>
+              <option value="Plateaux">Plateaux</option>
+              <option value="Centrale">Centrale</option>
+              <option value="Kara">Kara</option>
+              <option value="Savanes">Savanes</option>
+            </select>
+          </div>
+          <div class="flex flex-col gap-3">
+            <label class="text-sm font-medium">Date</label>
+            <input [ngModel]="selectedRow()!.date" (ngModelChange)="updateDrawerField('date', $event)" name="date" type="date" class="rounded-md border bg-background px-3 py-2 text-sm" />
+          </div>
+        </div>
+        <div class="flex flex-col gap-3">
+          <label class="text-sm font-medium">Assigné à</label>
+          <input [ngModel]="selectedRow()!.assignedTo" (ngModelChange)="updateDrawerField('assignedTo', $event)" name="assignedTo" class="rounded-md border bg-background px-3 py-2 text-sm" />
+        </div>
+        <div class="flex flex-col gap-3">
+          <label class="text-sm font-medium">Priorité</label>
+          <select [ngModel]="selectedRow()!.priority" (ngModelChange)="updateDrawerField('priority', $event)" name="priority" class="rounded-md border bg-background px-3 py-2 text-sm">
+            <option value="Haute">Haute</option>
+            <option value="Moyenne">Moyenne</option>
+            <option value="Basse">Basse</option>
+          </select>
+        </div>
+      </form>
+      <div class="flex items-center gap-2 px-6 pb-6 border-t pt-4">
+        <button (click)="saveDrawer()" class="rounded-md bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:bg-primary/90">Enregistrer</button>
+        <button (click)="closeDrawer()" class="rounded-md border bg-background px-4 py-2 text-sm font-medium hover:bg-accent">Annuler</button>
+      </div>
+    </div>
+  </div>
+}

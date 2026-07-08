@@ -1,0 +1,104 @@
+[
+  {
+    "id": 1,
+    "firstName": "Koffi",
+    "lastName": "Adjovi",
+    "email": "koffi.adjovi@ng-fields.tg",
+    "phone": "+228 91 11 22 33",
+    "status": "AVAILABLE",
+    "avatar": "https://api.dicebear.com/9.x/avataaars/svg?seed=Koffi",
+    "hireDate": "2019-06-15T00:00:00Z",
+    "skills": [
+      { "name": "Maintenance préventive", "level": "EXPERT" },
+      { "name": "Dépannage électrique", "level": "ADVANCED" },
+      { "name": "Installation réseau", "level": "INTERMEDIATE" }
+    ],
+    "interventions": { "thisMonth": 8, "total": 156, "avgDuration": 48 },
+    "rating": { "average": 4.8, "count": 42 }
+  },
+  {
+    "id": 2,
+    "firstName": "Ama",
+    "lastName": "Kponou",
+    "email": "ama.kponou@ng-fields.tg",
+    "phone": "+228 91 22 33 44",
+    "status": "BUSY",
+    "avatar": "https://api.dicebear.com/9.x/avataaars/svg?seed=Ama",
+    "hireDate": "2020-03-22T00:00:00Z",
+    "skills": [
+      { "name": "Installation maintenance", "level": "EXPERT" },
+      { "name": "Mise à jour logicielle", "level": "ADVANCED" },
+      { "name": "Dépannage général", "level": "ADVANCED" }
+    ],
+    "interventions": { "thisMonth": 6, "total": 98, "avgDuration": 52 },
+    "rating": { "average": 4.6, "count": 28 }
+  },
+  {
+    "id": 3,
+    "firstName": "Yao",
+    "lastName": "Mensah",
+    "email": "yao.mensah@ng-fields.tg",
+    "phone": "+228 91 33 44 55",
+    "status": "AVAILABLE",
+    "avatar": "https://api.dicebear.com/9.x/avataaars/svg?seed=Yao",
+    "hireDate": "2018-11-10T00:00:00Z",
+    "skills": [
+      { "name": "Audit système", "level": "EXPERT" },
+      { "name": "Maintenance préventive", "level": "EXPERT" },
+      { "name": "Documentation technique", "level": "ADVANCED" }
+    ],
+    "interventions": { "thisMonth": 7, "total": 178, "avgDuration": 58 },
+    "rating": { "average": 4.9, "count": 51 }
+  },
+  {
+    "id": 4,
+    "firstName": "Abla",
+    "lastName": "Nyaku",
+    "email": "abla.nyaku@ng-fields.tg",
+    "phone": "+228 91 44 55 66",
+    "status": "ON_LEAVE",
+    "avatar": "https://api.dicebear.com/9.x/avataaars/svg?seed=Abla",
+    "hireDate": "2021-02-05T00:00:00Z",
+    "skills": [
+      { "name": "Installation réseau", "level": "ADVANCED" },
+      { "name": "Dépannage matériel", "level": "ADVANCED" },
+      { "name": "Support client", "level": "EXPERT" }
+    ],
+    "interventions": { "thisMonth": 4, "total": 67, "avgDuration": 45 },
+    "rating": { "average": 4.7, "count": 19 }
+  },
+  {
+    "id": 5,
+    "firstName": "Kossi",
+    "lastName": "Dogbe",
+    "email": "kossi.dogbe@ng-fields.tg",
+    "phone": "+228 91 55 66 77",
+    "status": "AVAILABLE",
+    "avatar": "https://api.dicebear.com/9.x/avataaars/svg?seed=Kossi",
+    "hireDate": "2022-01-15T00:00:00Z",
+    "skills": [
+      { "name": "Installation maintenance", "level": "INTERMEDIATE" },
+      { "name": "Dépannage général", "level": "INTERMEDIATE" },
+      { "name": "Support utilisateur", "level": "ADVANCED" }
+    ],
+    "interventions": { "thisMonth": 9, "total": 45, "avgDuration": 42 },
+    "rating": { "average": 4.5, "count": 12 }
+  },
+  {
+    "id": 6,
+    "firstName": "Samuel",
+    "lastName": "Mensah",
+    "email": "samuel.mensah@ng-fields.tg",
+    "phone": "+228 91 66 77 88",
+    "status": "INACTIVE",
+    "avatar": "https://api.dicebear.com/9.x/avataaars/svg?seed=Samuel",
+    "hireDate": "2017-08-20T00:00:00Z",
+    "skills": [
+      { "name": "Maintenance préventive", "level": "EXPERT" },
+      { "name": "Dépannage électrique", "level": "EXPERT" },
+      { "name": "Audit système", "level": "ADVANCED" }
+    ],
+    "interventions": { "thisMonth": 0, "total": 234, "avgDuration": 55 },
+    "rating": { "average": 4.8, "count": 67 }
+  }
+]

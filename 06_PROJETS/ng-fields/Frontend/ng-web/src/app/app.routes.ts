@@ -69,6 +69,51 @@ export const routes: Routes = [
             (m) => m.RolesComponent,
           ),
       },
+      {
+        path: 'interventions',
+        pathMatch: 'full',
+        loadComponent: () =>
+          import('./features/dashboard/pages/interventions-list/interventions-list.component').then(
+            (m) => m.InterventionsListComponent,
+          ),
+      },
+      {
+        path: 'interventions/:id',
+        loadComponent: () =>
+          import('./features/dashboard/pages/intervention/intervention.component').then(
+            (m) => m.InterventionComponent,
+          ),
+      },
+      {
+        path: 'clients',
+        pathMatch: 'full',
+        loadComponent: () =>
+          import('./features/dashboard/pages/clients/clients-list.component').then(
+            (m) => m.ClientsListComponent,
+          ),
+      },
+      {
+        path: 'clients/:id',
+        loadComponent: () =>
+          import('./features/dashboard/pages/client-detail/client-detail.component').then(
+            (m) => m.ClientDetailComponent,
+          ),
+      },
+      {
+        path: 'technicians',
+        pathMatch: 'full',
+        loadComponent: () =>
+          import('./features/dashboard/pages/technicians/technicians-list.component').then(
+            (m) => m.TechniciansListComponent,
+          ),
+      },
+      {
+        path: 'technicians/:id',
+        loadComponent: () =>
+          import('./features/dashboard/pages/technician-detail/technician-detail.component').then(
+            (m) => m.TechnicianDetailComponent,
+          ),
+      },
     ],
   },
   { path: '**', redirectTo: '/login' },

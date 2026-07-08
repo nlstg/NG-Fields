@@ -37,9 +37,9 @@ export const sidebarItems: NavGroup[] = [
     id: 2,
     label: 'Field Operations',
     items: [
-      { id: 'interventions', title: 'Interventions', url: '#', icon: 'wrench', badge: 'soon', disabled: true },
-      { id: 'clients', title: 'Clients', url: '#', icon: 'users', badge: 'soon', disabled: true },
-      { id: 'technicians', title: 'Technicians', url: '#', icon: 'user-cog', badge: 'soon', disabled: true },
+      { id: 'interventions', title: 'Interventions', url: '/dashboard/interventions', icon: 'wrench' },
+      { id: 'clients', title: 'Clients', url: '/dashboard/clients', icon: 'users' },
+      { id: 'technicians', title: 'Technicians', url: '/dashboard/technicians', icon: 'user-cog' },
     ],
   },
   {

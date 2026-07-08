@@ -1,0 +1,48 @@
+<div class="space-y-4 p-4 md:p-6">
+  <div class="flex items-center gap-2 text-sm text-muted-foreground">
+    <a [routerLink]="['/dashboard/technicians']" class="hover:text-foreground">Techniciens</a>
+    <span>/</span>
+    @if (technician(); as tech) {
+      <span class="text-foreground">{{ tech.firstName }} {{ tech.lastName }}</span>
+    }
+  </div>
+
+  @if (isLoading()) {
+    <div class="space-y-4">
+      <div class="h-12 rounded-lg bg-muted animate-pulse"></div>
+      <div class="grid gap-4 md:grid-cols-3">
+        <div class="h-64 rounded-lg bg-muted animate-pulse"></div>
+        <div class="h-64 rounded-lg bg-muted animate-pulse"></div>
+        <div class="h-64 rounded-lg bg-muted animate-pulse"></div>
+      </div>
+    </div>
+  }
+
+  @if (error(); as err) {
+    <div class="rounded-lg border border-red-200 bg-red-50 dark:bg-red-950 p-4 text-red-700 dark:text-red-400">
+      {{ err }}
+    </div>
+  }
+
+  @if (technician(); as tech) {
+    <div class="space-y-6">
+      <app-technician-header [technician]="tech" (onStatusChange)="onStatusChange($event)" />
+
+      <div class="grid gap-6 lg:grid-cols-3">
+        <div class="lg:col-span-2 space-y-6">
+          <app-technician-info [technician]="tech" />
+          <app-technician-skills [skills]="tech.skills" [certifications]="tech.certifications" />
+          <app-technician-availability [availability]="tech.availability" />
+          <app-technician-interventions-month [interventions]="tech.interventionsThisMonth" />
+          <app-technician-interventions-history [interventions]="tech.interventionsHistory" />
+        </div>
+
+        <div class="space-y-6">
+          <app-technician-ratings [ratings]="tech.ratings" [average]="tech.rating.average" [count]="tech.rating.count" />
+          <app-technician-notes [notes]="tech.notes" (onNotesUpdate)="onNotesUpdate($event)" />
+          <app-technician-actions [technician]="tech" (onStatusChange)="onStatusChange($event)" />
+        </div>
+      </div>
+    </div>
+  }
+</div>

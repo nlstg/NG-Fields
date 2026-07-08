@@ -1,0 +1,156 @@
+<div class="rounded-lg border bg-card">
+  <div class="flex flex-col gap-4 p-4 border-b md:flex-row md:items-center md:justify-between">
+    <div>
+      <h2 class="text-sm font-medium">Équipe d'intervention</h2>
+    </div>
+    <div class="flex flex-col gap-2 md:flex-row md:items-center">
+      <select [(ngModel)]="filterStatus" (ngModelChange)="currentPage.set(1)" class="rounded border bg-background px-2 py-1 text-xs">
+        <option value="">Tous les statuts</option>
+        <option value="AVAILABLE">Disponibles</option>
+        <option value="BUSY">Occupés</option>
+        <option value="ON_LEAVE">En congé</option>
+        <option value="INACTIVE">Inactifs</option>
+      </select>
+
+      <span class="text-xs text-muted-foreground">Colonnes :</span>
+      <div class="flex flex-wrap gap-1">
+        @for (col of allColumns; track col.key) {
+          <label class="flex items-center gap-1 text-xs cursor-pointer">
+            <input type="checkbox" [checked]="isColumnVisible(col.key)" (change)="toggleColumn(col.key)" class="size-3" />
+            {{ col.label }}
+          </label>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="border-b bg-muted/50">
+          <th class="w-10 px-3 py-2 text-left">
+            <input type="checkbox" [checked]="isAllSelected()" (change)="toggleAllRows($event)" class="size-4" />
+          </th>
+          @for (col of allColumns; track col.key) {
+            @if (isColumnVisible(col.key)) {
+              <th (click)="sortBy(col.key)" class="px-3 py-2 text-left font-medium text-muted-foreground cursor-pointer hover:text-foreground select-none">
+                <div class="flex items-center gap-1">
+                  {{ col.label }}
+                  @if (sortColumn() === col.key) {
+                    <svg class="size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      @if (sortDirection() === 'asc') {
+                        <path d="m18 15-6-6-6 6"/>
+                      } @else {
+                        <path d="m6 9 6 6 6-6"/>
+                      }
+                    </svg>
+                  }
+                </div>
+              </th>
+            }
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (tech of paginatedData(); track tech.id) {
+          <tr class="border-b hover:bg-muted/50 transition-colors cursor-pointer" (click)="onTechnicianClick.emit(tech.id)" [class.bg-muted/30]="isSelected(tech.id)">
+            <td class="w-10 px-3 py-2" (click)="$event.stopPropagation()">
+              <input type="checkbox" [checked]="isSelected(tech.id)" (change)="toggleRow(tech.id)" class="size-4" />
+            </td>
+            @if (isColumnVisible('name')) {
+              <td class="px-3 py-2 font-medium">
+                <div class="flex items-center gap-2">
+                  <img [src]="tech.avatar" alt="{{ tech.firstName }}" class="size-6 rounded-full" />
+                  {{ tech.firstName }} {{ tech.lastName }}
+                </div>
+              </td>
+            }
+            @if (isColumnVisible('skills')) {
+              <td class="px-3 py-2 text-xs">
+                <div class="flex flex-wrap gap-1">
+                  @for (skill of tech.skills.slice(0, 3); track skill.name) {
+                    <span class="inline-block rounded-full px-2 py-0.5 bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
+                      {{ skill.name }}
+                    </span>
+                  }
+                  @if (tech.skills.length > 3) {
+                    <span class="inline-block rounded-full px-2 py-0.5 bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-400">
+                      +{{ tech.skills.length - 3 }}
+                    </span>
+                  }
+                </div>
+              </td>
+            }
+            @if (isColumnVisible('status')) {
+              <td class="px-3 py-2">
+                <span class="inline-block rounded-full px-2 py-0.5 text-xs font-medium {{ statusBadgeClass(tech.status) }}">
+                  {{ statusLabel(tech.status) }}
+                </span>
+              </td>
+            }
+            @if (isColumnVisible('thisMonth')) {
+              <td class="px-3 py-2 text-sm">{{ tech.interventions.thisMonth }}</td>
+            }
+            @if (isColumnVisible('availability')) {
+              <td class="px-3 py-2 text-xs text-muted-foreground">
+                @if (tech.status === 'AVAILABLE') {
+                  <span class="text-green-600 dark:text-green-400">✓ Disponible</span>
+                }
+                @if (tech.status === 'BUSY') {
+                  <span class="text-blue-600 dark:text-blue-400">En intervention</span>
+                }
+                @if (tech.status === 'ON_LEAVE') {
+                  <span class="text-yellow-600 dark:text-yellow-400">Congé</span>
+                }
+              </td>
+            }
+            @if (isColumnVisible('rating')) {
+              <td class="px-3 py-2 text-sm">
+                <div class="flex items-center gap-1">
+                  <span>⭐ {{ tech.rating.average.toFixed(1) }}</span>
+                  <span class="text-xs text-muted-foreground">({{ tech.rating.count }})</span>
+                </div>
+              </td>
+            }
+            @if (isColumnVisible('email')) {
+              <td class="px-3 py-2 text-xs text-muted-foreground">{{ tech.email }}</td>
+            }
+            @if (isColumnVisible('phone')) {
+              <td class="px-3 py-2 text-xs text-muted-foreground">{{ tech.phone }}</td>
+            }
+            @if (isColumnVisible('hireDate')) {
+              <td class="px-3 py-2 text-xs text-muted-foreground">{{ formatDate(tech.hireDate) }}</td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="flex items-center justify-between border-t p-4">
+    <div class="flex items-center gap-2 text-sm text-muted-foreground">
+      <span>Lignes par page :</span>
+      <select [ngModel]="pageSize()" (ngModelChange)="setPageSize($event)" class="rounded border bg-background px-2 py-1 text-sm">
+        @for (opt of pageSizeOptions; track opt) {
+          <option [value]="opt">{{ opt }}</option>
+        }
+      </select>
+      <span>{{ pageInfo }}</span>
+    </div>
+    <div class="flex items-center gap-1">
+      <button (click)="goToPage(1)" [disabled]="currentPage() === 1" class="rounded p-1 text-muted-foreground hover:text-foreground disabled:opacity-30" title="Première page">
+        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="11 17 6 12 11 7"/><polyline points="18 17 13 12 18 7"/></svg>
+      </button>
+      <button (click)="goToPage(currentPage() - 1)" [disabled]="currentPage() === 1" class="rounded p-1 text-muted-foreground hover:text-foreground disabled:opacity-30" title="Précédent">
+        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <span class="px-2 text-sm text-muted-foreground">{{ currentPage() }} / {{ totalPages() }}</span>
+      <button (click)="goToPage(currentPage() + 1)" [disabled]="currentPage() === totalPages()" class="rounded p-1 text-muted-foreground hover:text-foreground disabled:opacity-30" title="Suivant">
+        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <button (click)="goToPage(totalPages())" [disabled]="currentPage() === totalPages()" class="rounded p-1 text-muted-foreground hover:text-foreground disabled:opacity-30" title="Dernière page">
+        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+      </button>
+    </div>
+  </div>
+</div>

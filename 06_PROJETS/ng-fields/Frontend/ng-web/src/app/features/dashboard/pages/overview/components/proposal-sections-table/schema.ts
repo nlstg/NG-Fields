@@ -1,9 +1,10 @@
-export interface ProposalSectionsRow {
+export interface InterventionRow {
   id: number;
-  header: string;
+  client: string;
   type: string;
   status: string;
-  target: string;
-  limit: string;
-  reviewer: string;
+  zone: string;
+  assignedTo: string;
+  date: string;
+  priority: string;
 }

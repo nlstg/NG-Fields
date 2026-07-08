@@ -1,0 +1,28 @@
+<div class="space-y-4 p-4 md:p-6">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-3xl font-bold">Clients</h1>
+      <p class="text-sm text-muted-foreground mt-1">Gestion de votre portefeuille client</p>
+    </div>
+    <button
+      (click)="onCreateClient()"
+      class="rounded-md bg-primary px-4 py-2 text-xs font-medium text-primary-foreground hover:bg-primary/90"
+    >
+      + Nouveau client
+    </button>
+  </div>
+
+  @if (isLoading()) {
+    <div class="h-96 rounded-lg bg-muted animate-pulse"></div>
+  }
+
+  @if (error(); as err) {
+    <div class="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
+      {{ err }}
+    </div>
+  }
+
+  @if (!isLoading() && !error()) {
+    <app-clients-table [clients]="clients()" (onClientClick)="onClientClick($event)" />
+  }
+</div>

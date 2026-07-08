@@ -1,0 +1,210 @@
+[
+  {
+    "id": 1,
+    "name": "Lomé Textile SA",
+    "type": "Entreprise",
+    "status": "ACTIVE",
+    "email": "contact@lometextile.tg",
+    "phone": "+228 22 10 11 12",
+    "website": "https://lometextile.tg",
+    "address": "Zone Industrielle, Rue de l'Industrie",
+    "city": "Lomé",
+    "postalCode": "00228",
+    "country": "Togo",
+    "registrationNumber": "TG-12345-001",
+    "taxId": "TG-VAT-12345",
+    "createdAt": "2020-03-15T10:00:00Z",
+    "lastInterventionAt": "2024-06-15T14:00:00Z",
+    "contact": {
+      "name": "Kwame Boakye",
+      "title": "Directeur Technique",
+      "email": "k.boakye@lometextile.tg",
+      "phone": "+228 90 12 34 56",
+      "mobile": "+228 90 12 34 56"
+    },
+    "billing": {
+      "invoiceEmail": "invoice@lometextile.tg",
+      "paymentTerms": "Net 30",
+      "creditLimit": 50000,
+      "balance": 5200
+    },
+    "interventions": {
+      "total": 24,
+      "resolved": 22,
+      "pending": 2
+    }
+  },
+  {
+    "id": 2,
+    "name": "Agro Plus Togo",
+    "type": "Entreprise",
+    "status": "ACTIVE",
+    "email": "contact@agroplus.tg",
+    "phone": "+228 22 22 22 22",
+    "website": "https://agroplus.tg",
+    "address": "Route de Kara, km 5",
+    "city": "Kara",
+    "postalCode": "00228",
+    "country": "Togo",
+    "registrationNumber": "TG-54321-002",
+    "taxId": "TG-VAT-54321",
+    "createdAt": "2021-05-20T08:30:00Z",
+    "lastInterventionAt": "2024-06-12T10:00:00Z",
+    "contact": {
+      "name": "Abi Mensah",
+      "title": "Chef de Projet",
+      "email": "a.mensah@agroplus.tg",
+      "phone": "+228 91 22 33 44",
+      "mobile": "+228 91 22 33 44"
+    },
+    "billing": {
+      "invoiceEmail": "billing@agroplus.tg",
+      "paymentTerms": "Net 45",
+      "creditLimit": 75000,
+      "balance": 12500
+    },
+    "interventions": {
+      "total": 18,
+      "resolved": 18,
+      "pending": 0
+    }
+  },
+  {
+    "id": 3,
+    "name": "Maritime Foods",
+    "type": "Entreprise",
+    "status": "ACTIVE",
+    "email": "contact@maritimefoods.tg",
+    "phone": "+228 22 33 44 55",
+    "website": "https://maritimefoods.tg",
+    "address": "Port Autonome, Zone Portuaire",
+    "city": "Lomé",
+    "postalCode": "00228",
+    "country": "Togo",
+    "registrationNumber": "TG-99999-003",
+    "taxId": "TG-VAT-99999",
+    "createdAt": "2019-11-10T14:00:00Z",
+    "lastInterventionAt": "2024-06-14T16:00:00Z",
+    "contact": {
+      "name": "Yawa Goka",
+      "title": "Responsable Maintenance",
+      "email": "y.goka@maritimefoods.tg",
+      "phone": "+228 92 44 55 66",
+      "mobile": "+228 92 44 55 66"
+    },
+    "billing": {
+      "invoiceEmail": "accounting@maritimefoods.tg",
+      "paymentTerms": "Net 30",
+      "creditLimit": 100000,
+      "balance": 0
+    },
+    "interventions": {
+      "total": 42,
+      "resolved": 40,
+      "pending": 2
+    }
+  },
+  {
+    "id": 4,
+    "name": "Sokodé Energie",
+    "type": "Entreprise",
+    "status": "INACTIVE",
+    "email": "contact@sokodeenergie.tg",
+    "phone": "+228 22 55 66 77",
+    "address": "Centre Industriel, Sokodé",
+    "city": "Sokodé",
+    "postalCode": "00228",
+    "country": "Togo",
+    "registrationNumber": "TG-11111-004",
+    "taxId": "TG-VAT-11111",
+    "createdAt": "2022-01-15T09:00:00Z",
+    "lastInterventionAt": "2024-03-20T11:00:00Z",
+    "contact": {
+      "name": "Kofi Mensah",
+      "title": "Directeur Général",
+      "email": "k.mensah@sokodeenergie.tg",
+      "phone": "+228 93 55 66 77",
+      "mobile": "+228 93 55 66 77"
+    },
+    "billing": {
+      "invoiceEmail": "finance@sokodeenergie.tg",
+      "paymentTerms": "Net 60",
+      "creditLimit": 60000,
+      "balance": 18500
+    },
+    "interventions": {
+      "total": 12,
+      "resolved": 12,
+      "pending": 0
+    }
+  },
+  {
+    "id": 5,
+    "name": "Golfe Import-Export",
+    "type": "Entreprise",
+    "status": "ACTIVE",
+    "email": "contact@golfeix.tg",
+    "phone": "+228 22 66 77 88",
+    "website": "https://golfeix.tg",
+    "address": "Boulevard du 13 janvier, Lomé",
+    "city": "Lomé",
+    "postalCode": "00228",
+    "country": "Togo",
+    "registrationNumber": "TG-22222-005",
+    "taxId": "TG-VAT-22222",
+    "createdAt": "2021-08-22T12:30:00Z",
+    "lastInterventionAt": "2024-06-10T13:00:00Z",
+    "contact": {
+      "name": "Mawuli Soe",
+      "title": "Chef d'Exploitation",
+      "email": "m.soe@golfeix.tg",
+      "phone": "+228 94 66 77 88",
+      "mobile": "+228 94 66 77 88"
+    },
+    "billing": {
+      "invoiceEmail": "billing@golfeix.tg",
+      "paymentTerms": "Net 30",
+      "creditLimit": 55000,
+      "balance": 3200
+    },
+    "interventions": {
+      "total": 15,
+      "resolved": 15,
+      "pending": 0
+    }
+  },
+  {
+    "id": 6,
+    "name": "Kara Distribution",
+    "type": "Entreprise",
+    "status": "ACTIVE",
+    "email": "contact@karadist.tg",
+    "phone": "+228 22 77 88 99",
+    "address": "Rue Principale, Kara",
+    "city": "Kara",
+    "postalCode": "00228",
+    "country": "Togo",
+    "registrationNumber": "TG-33333-006",
+    "taxId": "TG-VAT-33333",
+    "createdAt": "2020-06-05T11:00:00Z",
+    "lastInterventionAt": "2024-06-13T15:00:00Z",
+    "contact": {
+      "name": "Addo Tsevi",
+      "title": "Directeur d'Exploitation",
+      "email": "a.tsevi@karadist.tg",
+      "phone": "+228 95 77 88 99",
+      "mobile": "+228 95 77 88 99"
+    },
+    "billing": {
+      "invoiceEmail": "invoice@karadist.tg",
+      "paymentTerms": "Net 45",
+      "creditLimit": 45000,
+      "balance": 9800
+    },
+    "interventions": {
+      "total": 20,
+      "resolved": 19,
+      "pending": 1
+    }
+  }
+]

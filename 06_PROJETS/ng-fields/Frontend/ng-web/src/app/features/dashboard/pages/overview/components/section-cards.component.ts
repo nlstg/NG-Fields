@@ -6,8 +6,9 @@ interface StatCard {
   value: string;
   badge: string;
   badgeVariant: 'positive' | 'negative' | 'neutral';
-  description: string;
   icon: string;
+  trendText: string;
+  footerDescription: string;
 }
 
 @Component({
@@ -15,25 +16,32 @@ interface StatCard {
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div class="grid @5xl/main:grid-cols-4 @xl/main:grid-cols-2 grid-cols-1 gap-4 *:data-slot='card':bg-linear-to-t *:data-slot='card':from-primary/5 *:data-slot='card':to-card *:data-slot='card':shadow-xs dark:*:data-slot='card':bg-card">
       @for (card of cards; track card.title) {
-        <div class="rounded-lg border bg-card p-4 md:p-6">
-          <div class="flex items-center gap-2">
-            <span [innerHTML]="card.icon" class="size-4 text-muted-foreground"></span>
-            <span class="text-xs font-medium text-muted-foreground uppercase tracking-wider">{{ card.title }}</span>
+        <div data-slot="card" class="@container/card rounded-lg border p-6 flex flex-col gap-1.5 relative">
+          <div class="text-sm text-muted-foreground">{{ card.title }}</div>
+          <div class="font-semibold @[250px]/card:text-3xl text-2xl tabular-nums">{{ card.value }}</div>
+          <span
+            class="absolute top-6 right-6 inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-xs font-medium text-muted-foreground"
+          >
+            @if (card.badgeVariant === 'positive') {
+              <svg class="size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            } @else if (card.badgeVariant === 'negative') {
+              <svg class="size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+            }
+            {{ card.badge }}
+          </span>
+          <div class="flex flex-col items-start gap-1.5 text-sm mt-2">
+            <div class="line-clamp-1 flex gap-2 font-medium">
+              {{ card.trendText }}
+              @if (card.badgeVariant === 'positive') {
+                <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              } @else if (card.badgeVariant === 'negative') {
+                <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+              }
+            </div>
+            <div class="text-muted-foreground">{{ card.footerDescription }}</div>
           </div>
-          <div class="mt-3 flex items-baseline gap-2">
-            <span class="text-2xl font-bold">{{ card.value }}</span>
-            <span class="rounded-md px-1.5 py-0.5 text-xs font-medium"
-              [class.bg-green-100]="card.badgeVariant === 'positive'"
-              [class.text-green-700]="card.badgeVariant === 'positive'"
-              [class.bg-red-100]="card.badgeVariant === 'negative'"
-              [class.text-red-700]="card.badgeVariant === 'negative'"
-              [class.bg-blue-100]="card.badgeVariant === 'neutral'"
-              [class.text-blue-700]="card.badgeVariant === 'neutral'"
-            >{{ card.badge }}</span>
-          </div>
-          <p class="mt-1 text-xs text-muted-foreground">{{ card.description }}</p>
         </div>
       }
     </div>
@@ -43,36 +51,40 @@ interface StatCard {
 export class SectionCardsComponent {
   cards: StatCard[] = [
     {
-      title: 'Total Revenue',
-      value: '$1,250.00',
+      title: 'Total Interventions',
+      value: '1,247',
       badge: '+12.5%',
       badgeVariant: 'positive',
-      description: 'vs last month',
-      icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
+      icon: '',
+      trendText: 'En hausse ce mois-ci',
+      footerDescription: 'Interventions sur les 3 derniers mois',
     },
     {
-      title: 'New Customers',
-      value: '1,234',
-      badge: '-20%',
+      title: 'Clients Actifs',
+      value: '89',
+      badge: '+12.5%',
+      badgeVariant: 'positive',
+      icon: '',
+      trendText: 'Forte acquisition clients',
+      footerDescription: 'Nouveaux inscrits ce trimestre',
+    },
+    {
+      title: 'Rapports en Attente',
+      value: '23',
+      badge: '-5.0%',
       badgeVariant: 'negative',
-      description: 'vs last month',
-      icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+      icon: '',
+      trendText: 'En baisse cette période',
+      footerDescription: 'Traitement en cours accéléré',
     },
     {
-      title: 'Active Accounts',
-      value: '45,678',
-      badge: '+12.5%',
+      title: 'Taux de Couverture',
+      value: '94.2%',
+      badge: '+2.1%',
       badgeVariant: 'positive',
-      description: 'vs last month',
-      icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>',
-    },
-    {
-      title: 'Growth Rate',
-      value: '4.5%',
-      badge: '+4.5%',
-      badgeVariant: 'positive',
-      description: 'vs last month',
-      icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>',
+      icon: '',
+      trendText: 'Progression constante',
+      footerDescription: 'Atteint les projections de couverture',
     },
   ];
 }

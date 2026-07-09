@@ -649,6 +649,23 @@ Tous les endpoints backend, zéro frontend. L'API est testable via Swagger/Postm
 
 ---
 
+### US-036 — Optimisation API & Clean Architecture
+Priorité : 🟡 MOYENNE | SP : 3 | Statut : 🔴 PENDING
+En tant que développeur,
+Je veux optimiser les payloads API et respecter la Clean Architecture,
+Afin d'améliorer les performances du dashboard et la maintenabilité.
+Critères d'acceptation :
+[API] Utilisation de DTOs de projection (Records Java) pour les listes (réduction du payload JSON)
+[API] Zéro logique métier dans les Controllers (validation et délégation uniquement)
+[API] Appels OpenProject/WhatsApp 100% asynchrones via files Redis
+Tâches :
+[API] Créer les Records `InterventionListDTO`, `ClientListDTO`
+[API] Auditer et nettoyer les Controllers
+[API] Vérifier l'asynchronisme strict des services d'intégration
+Git : `git add . && git commit -m "refactor(US-036): optimisation API et clean architecture" && git push origin feature/V0-S3`
+
+---
+
 ## V0.1 — Angular Web (22 juin-3 juillet)
 
 Tous les écrans web Angular, connectés à l'API V0.
@@ -662,35 +679,53 @@ Tous les écrans web Angular, connectés à l'API V0.
 
 ### EPIC 9 — Tableau de Bord Web
 
-#### US-028 — Dashboard Manager (API + Angular)
+### US-028 — Dashboard Manager (API + Angular)
+Priorité : 🔴 CRITIQUE | SP : 10 (était 8) | Statut : 🔴 PENDING
+En tant que manager,
+Je veux un tableau de bord web avec statistiques et vue Kanban,
+Afin de piloter l'activité en temps réel avec une UX moderne.
+Critères d'acceptation :
+`GET /api/manager/dashboard` : KPIs du jour
+`GET /api/manager/stats/by-technician` : stats par technicien
+`GET /api/manager/stats/by-client` : stats par client
+`GET /api/manager/export/csv` : export CSV
+`GET /api/manager/export/excel` : export XLSX
+Réservé MANAGER/ADMIN, < 3s
+[WEB] Dashboard Angular avec graphiques
+[WEB] Liste interventions avec filtres
+[WEB] Export CSV/Excel
+**[WEB] Vue Kanban / Timeline en complément de l'AG Grid**
+**[WEB] Skeleton Loaders pour les KPIs et listes (perceived performance)**
+**[WEB] Mode Sombre (Dark Mode) via Tailwind CSS**
+Tâches :
+[API] `DashboardController` + `DashboardService`
+[API] `ExportService` (Apache POI + OpenCSV)
+[WEB] Initialiser projet Angular (`apps/web/`)
+[WEB] Module dashboard (graphiques Chart.js)
+[WEB] Liste interventions avec filtres
+[WEB] Détail intervention
+[WEB] Boutons export
+**[WEB] Implémenter la vue Kanban/Timeline (ex: Angular CDK Drag & Drop)**
+**[WEB] Intégrer les Skeleton Loaders (Tailwind / ngx-skeleton-loader)**
+**[WEB] Configurer le Dark Mode (Tailwind `darkMode: 'class'`)**
+Git : `git add . && git commit -m "feat(US-028): dashboard manager" && git push origin feature/V01-S1`
 
-**Priorité :** 🔴 CRITIQUE | **SP :** 8 | **Statut :** 🔴 PENDING
+---
 
-**En tant que** manager,
-**Je veux** un tableau de bord web avec statistiques,
-**Afin de** piloter l'activité en temps réel.
-
-**Critères d'acceptation :**
-- `GET /api/manager/dashboard` : KPIs du jour
-- `GET /api/manager/stats/by-technician` : stats par technicien
-- `GET /api/manager/stats/by-client` : stats par client
-- `GET /api/manager/export/csv` : export CSV
-- `GET /api/manager/export/excel` : export XLSX
-- Réservé MANAGER/ADMIN, < 3s
-- [WEB] Dashboard Angular avec graphiques
-- [WEB] Liste interventions avec filtres
-- [WEB] Export CSV/Excel
-
-**Tâches :**
-- [API] `DashboardController` + `DashboardService`
-- [API] `ExportService` (Apache POI + OpenCSV)
-- [WEB] Initialiser projet Angular (`apps/web/`)
-- [WEB] Module dashboard (graphiques Chart.js)
-- [WEB] Liste interventions avec filtres
-- [WEB] Détail intervention
-- [WEB] Boutons export
-
-**Git :** `git add . && git commit -m "feat(US-028): dashboard manager" && git push origin feature/V01-S1`
+### US-035 — Temps réel Dashboard (SSE)
+Priorité : 🟠 HAUTE | SP : 5 | Statut : 🔴 PENDING
+En tant que manager,
+Je veux que le dashboard se mette à jour sans refresh de la page,
+Afin de suivre l'activité en temps réel (effet "waouh").
+Critères d'acceptation :
+[API] Endpoint SSE `/api/manager/events`
+[API] Push des événements `INTERVENTION_STATUS_CHANGED`, `NEW_TICKET`
+[WEB] Consommation du flux SSE et rafraîchissement automatique de l'AG Grid / Kanban
+Tâches :
+[API] Configurer `SseEmitter` dans un `EventController`
+[API] Émettre les événements depuis `InterventionService` et `ClientPortalService`
+[WEB] Créer un `EventSourceService` dans Angular pour consommer le SSE
+Git : `git add . && git commit -m "feat(US-035): temps réel dashboard SSE" && git push origin feature/V01-S1`
 
 ---
 
@@ -968,19 +1003,22 @@ Tous les écrans Flutter, mode hors-ligne, notifications.
 
 ---
 
-#### US-013M — Sections 3-4 (Mobile)
-
-**Priorité :** 🔴 CRITIQUE | **SP :** 3 | **Statut :** 🔴 PENDING
-
-**Critères d'acceptation :**
-- [MOBILE] Diagnostic, travaux, équipement
-- [MOBILE] Liste consommables avec ajout/suppression
-
-**Tâches :**
-- [MOBILE] `InterventionFormStep3` (diagnostic)
-- [MOBILE] `InterventionFormStep4` (consommables)
-
-**Git :** `git add . && git commit -m "feat(US-013M): diagnostic et consommables mobile" && git push origin feature/V1-S1`
+### US-013M — Sections 3-4 (Mobile)
+Priorité : 🔴 CRITIQUE | SP : 5 (était 3) | Statut : 🔴 PENDING
+En tant que technicien,
+Je veux saisir le diagnostic et les travaux via la voix et avec une UI adaptée au terrain,
+Afin de réduire le temps de saisie et d'utiliser l'app avec des gants/en extérieur.
+Critères d'acceptation :
+[MOBILE] Diagnostic, travaux, équipement
+[MOBILE] Liste consommables avec ajout/suppression
+**[MOBILE] Bouton "Microphone" pour saisie vocale (Voice-to-Text) du diagnostic**
+**[MOBILE] UI "Terrain" : gros boutons, contrastes forts (Material 3, police min 16sp)**
+Tâches :
+[MOBILE] `InterventionFormStep3` (diagnostic)
+[MOBILE] `InterventionFormStep4` (consommables)
+**[MOBILE] Intégrer le package `speech_to_text` pour la dictée**
+**[MOBILE] Adapter le thème global (visualDensity, tailles de police) pour l'ergonomie terrain**
+Git : `git add . && git commit -m "feat(US-013M): diagnostic et consommables mobile" && git push origin feature/V1-S1`
 
 ---
 
@@ -1063,12 +1101,14 @@ Tous les écrans Flutter, mode hors-ligne, notifications.
 - [MOBILE] Base locale Drift (SQLite) avec les mêmes tables
 - [MOBILE] Queue de sync automatique au retour réseau
 - [MOBILE] OfflineBadge indicateur de connexion
+- **[MOBILE] Badge de sync rassurant : animation de sync en arrière-plan + compteur de fiches en attente**
 - [MOBILE] Sync background avec connectivity_plus
 
 **Tâches :**
 - [MOBILE] Configurer Drift (entités, migrations)
 - [MOBILE] `SyncService` (queue + retry)
 - [MOBILE] `OfflineBadge` widget
+- **[MOBILE] Développer le widget `OfflineBadge` avec animation et compteur**
 
 **Git :** `git add . && git commit -m "feat(US-019M): synchronisation hors-ligne mobile" && git push origin feature/V1-S2`
 
@@ -1137,7 +1177,7 @@ Tous les écrans Flutter, mode hors-ligne, notifications.
 
 #### US-024 — Notifications push Firebase
 
-**Priorité :** 🟠 HAUTE | **SP :** 5 | **Statut :** 🔴 PENDING
+**Priorité :** 🟠 HAUTE | **SP :** 6 | **Statut :** 🔴 PENDING
 
 **Critères d'acceptation :**
 - Push managers sur : création, COMPLETED, dépassement seuil
@@ -1145,6 +1185,7 @@ Tous les écrans Flutter, mode hors-ligne, notifications.
 - Queue Redis push_queue, fallback email
 - [MOBILE] Réception notification + navigation directe
 - [WEB] Page configuration alertes
+- **[API] Tâches planifiées (`@Scheduled`) pour détecter les dépassements de seuil de durée (SLA)**
 
 **Tâches :**
 - [API] `NotificationService` + `PushQueueConsumer`
@@ -1152,6 +1193,7 @@ Tous les écrans Flutter, mode hors-ligne, notifications.
 - [MOBILE] Configurer Firebase Cloud Messaging
 - [MOBILE] Gérer réception + navigation
 - [WEB] Page configuration seuil durée
+- **[API] Créer un job `@Scheduled` pour scanner les interventions `IN_PROGRESS` et alerter (push_queue)**
 
 **Git :** `git add . && git commit -m "feat(US-024): notifications push Firebase" && git push origin feature/V1-S2`
 

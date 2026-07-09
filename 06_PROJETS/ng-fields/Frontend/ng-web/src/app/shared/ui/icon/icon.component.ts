@@ -6,7 +6,7 @@ import {
   LucideMessageSquare, LucideCalendar, LucideKanban, LucideSquareCheck, LucideReceiptText,
   LucideSquareArrowUpRight, LucideCirclePlus, LucidePanelLeft, LucideChevronRight,
   LucideCircleUser, LucideCreditCard, LucideLogOut, LucideEllipsisVertical, LucideMessageSquareDot,
-  LucideSearch,
+  LucideSearch, LucideTrendingUp, LucideAlertTriangle, LucideMapPin, LucideClock,
 } from '@lucide/angular';
 
 const iconMap: Record<string, any> = {
@@ -41,6 +41,10 @@ const iconMap: Record<string, any> = {
   'ellipsis-vertical': LucideEllipsisVertical,
   'message-square-dot': LucideMessageSquareDot,
   'search': LucideSearch,
+  'trending-up': LucideTrendingUp,
+  'alert-triangle': LucideAlertTriangle,
+  'map-pin': LucideMapPin,
+  'clock': LucideClock,
 };
 
 @Component({

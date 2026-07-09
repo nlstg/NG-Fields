@@ -46,17 +46,17 @@ export const sidebarItems: NavGroup[] = [
     id: 3,
     label: 'Reports',
     items: [
-      { id: 'analytics-reports', title: 'Analytics', url: '#', icon: 'chart-bar', badge: 'soon', disabled: true },
-      { id: 'exports', title: 'Exports', url: '#', icon: 'download', badge: 'soon', disabled: true },
+      { id: 'analytics-reports', title: 'Analytics', url: '/dashboard/analytics', icon: 'chart-bar' },
+      { id: 'exports', title: 'Exports', url: '/dashboard/exports', icon: 'download' },
     ],
   },
   {
     id: 4,
     label: 'Administration',
     items: [
-      { id: 'admin-users', title: 'Users', url: '/dashboard/users', icon: 'users', disabled: true },
-      { id: 'admin-roles', title: 'Roles', url: '/dashboard/roles', icon: 'lock', disabled: true },
-      { id: 'admin-settings', title: 'Settings', url: '#', icon: 'settings', badge: 'soon', disabled: true },
+      { id: 'admin-users', title: 'Users', url: '/dashboard/users', icon: 'users' },
+      { id: 'admin-roles', title: 'Roles', url: '/dashboard/roles', icon: 'lock' },
+      { id: 'admin-settings', title: 'Settings', url: '/dashboard/settings', icon: 'settings' },
     ],
   },
   {

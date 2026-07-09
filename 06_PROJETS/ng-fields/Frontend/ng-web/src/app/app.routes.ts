@@ -114,6 +114,27 @@ export const routes: Routes = [
             (m) => m.TechnicianDetailComponent,
           ),
       },
+      {
+        path: 'analytics',
+        loadComponent: () =>
+          import('./features/dashboard/pages/analytics/analytics.component').then(
+            (m) => m.AnalyticsComponent,
+          ),
+      },
+      {
+        path: 'exports',
+        loadComponent: () =>
+          import('./features/dashboard/pages/exports/exports.component').then(
+            (m) => m.ExportsComponent,
+          ),
+      },
+      {
+        path: 'settings',
+        loadComponent: () =>
+          import('./features/dashboard/pages/settings/settings.component').then(
+            (m) => m.SettingsComponent,
+          ),
+      },
     ],
   },
   { path: '**', redirectTo: '/login' },
